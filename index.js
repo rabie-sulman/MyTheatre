@@ -1,0 +1,48 @@
+/**
+ * Required External Modules
+ */
+const express = require("express");
+const path = require("path");
+const moment = require("moment");
+const sumaryAvail = require("./controllers/summaryAvail");
+/**
+ * App Variables
+ */
+const app = express();
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "pug");
+app.use(express.static(path.join(__dirname, "public")));
+
+/**
+ *  App Configuration
+ */
+const port = process.env.PORT || "8000";
+var config = require('./config');
+app.set(config, config);
+
+/**
+ * Routes Definitions
+ */
+app.get("/", (req, res) => {
+    res.render("index", { title: "Home" });
+});
+
+app.get("/availability", (req, res) => {
+    var host = config.env.inventory_host;
+    var inputs = config.inputs;
+    var availInputs = {
+        productId: inputs.productId,
+        ticketQuantity: inputs.ticketQuantity,
+        fromDate: moment().format("YYYYMMDD"),               // today
+        toDate: moment().add(1, 'weeks').format("YYYYMMDD"), // a week from now
+        affiliateId: config.env.affiliateId
+    };
+    sumaryAvail.getAvailability(host, availInputs, res);
+});
+
+/**
+ * Server Activation
+ */
+app.listen(port, () => {
+    console.log(`Listening to requests on http://localhost:${port}`);
+});

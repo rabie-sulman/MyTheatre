@@ -1,0 +1,13 @@
+extends layout
+
+block layout-content
+  div.View
+    h1.Banner MyTheatre
+    div.Message
+      div.Title
+        h3 Best theatre tickets site
+        h1 available dates for show:
+      pre.Details=JSON.stringify(response, null, 2)
+    div.NavButtons
+      a(href="/")
+          div.NavButton Home!
