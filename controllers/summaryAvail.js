@@ -3,7 +3,7 @@ var request = require('request-promise');
 
 var availURI = '/api/v4/availability/products/productId/quantity/ticketQuantity/from/fromDate/to/toDate';
 
-const getAvailability = (host, inputs, callback) => {
+const getAvailability = (host, inputs, template, callback) => {
     availURI = availURI.replace('productId', inputs.productId);
     availURI = availURI.replace('ticketQuantity', inputs.ticketQuantity);
     availURI = availURI.replace('fromDate', inputs.fromDate);
@@ -21,8 +21,11 @@ const getAvailability = (host, inputs, callback) => {
             "via": "demo",
             "affiliateId": affiliateId
         }
-    }).then(function (response) {
-        callback.render("availability", response);
+    }).then(function (data) {
+        callback.render(template, {
+            request: data.request,
+            response: data.response,
+        });
     }).catch(function (err) {
         console.log(err);
     });

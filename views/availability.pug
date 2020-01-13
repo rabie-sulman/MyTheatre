@@ -7,7 +7,23 @@ block layout-content
       div.Title
         h3 Best theatre tickets site
         h1 available dates for show:
-      pre.Details=JSON.stringify(response, null, 2)
+        table 
+          tr
+            th product ID
+            th quantity
+            th affiliate
+          tr
+            td=request.urlParams.productId
+            td=request.urlParams.quantity
+            td=request.query.affiliateId
+
+        table 
+          tr
+            th datetime
+          for item in response
+            tr
+              td
+                a(href='/performance?date='+item.datetime+'&productId='+request.urlParams.productId+'&quantity='+request.urlParams.quantity+'&affiliateId='+request.query.affiliateId) #{item.datetime}
     div.NavButtons
       a(href="/")
           div.NavButton Home!

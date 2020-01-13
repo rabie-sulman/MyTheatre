@@ -1,0 +1,36 @@
+extends layout
+
+block layout-content
+  div.View
+    h1.Banner MyTheatre
+    div.Message
+      div.Title
+        h3 Best theatre tickets site
+        h1 available dates for show:
+        table 
+          tr
+            th product ID
+            th quantity
+            th affiliate
+          tr
+            td=request.urlParams.productId
+            td=request.urlParams.quantity
+            td=request.query.affiliateId
+            td=request.query.date
+            td=request.query.time
+
+        table
+          tr
+            th lump of seats
+            th lump's seat identifier
+            th -
+          for lump in response
+            for seat in lump.seats
+              tr
+                td=lump.lump
+                td=seat.seatIdentifier
+                td
+                  a(href='/addToBasket?date='+request.query.date+'&time='+request.query.time+'&productId='+request.urlParams.productId+'&quantity='+request.urlParams.quantity+'&affiliateId='+request.query.affiliateId+'&seatKey='+seat.aggregateReference) create basket
+    div.NavButtons
+      a(href="/")
+          div.NavButton Home!

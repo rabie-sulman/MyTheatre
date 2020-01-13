@@ -5,6 +5,8 @@ const express = require("express");
 const path = require("path");
 const moment = require("moment");
 const sumaryAvail = require("./controllers/summaryAvail");
+const performance = require("./controllers/performance");
+
 /**
  * App Variables
  */
@@ -37,7 +39,21 @@ app.get("/availability", (req, res) => {
         toDate: moment().add(1, 'weeks').format("YYYYMMDD"), // a week from now
         affiliateId: config.env.affiliateId
     };
-    sumaryAvail.getAvailability(host, availInputs, res);
+    sumaryAvail.getAvailability(host, availInputs, "availability", res);
+});
+
+app.get("/performance", (req, res) => {
+    var host = config.env.inventory_host;
+    var date = req.query.date.replace(' ', '+'); //workaround because url query params removes "+"
+    var availInputs = {
+        productId: req.query.productId,
+        ticketQuantity: req.query.quantity,
+        date: moment(date).format('YYYYMMDD'),
+        time: moment(date).format('HHmm'),
+        affiliateId: req.query.affiliateId
+    };
+    
+    performance.getPerformance(host, availInputs, "performance", res);
 });
 
 /**

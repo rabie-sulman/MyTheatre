@@ -7,6 +7,7 @@ const env = {
 
 const inputs = {
     productId: 1587,
+    venueId: 138,
     ticketQuantity: 2,
     periodAvailability: 7 //days
 }
