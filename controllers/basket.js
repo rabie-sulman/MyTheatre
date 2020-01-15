@@ -20,9 +20,6 @@ var authString = Buffer.from(apiCredentials.affiliateId + ':' + apiCredentials.a
         "json": false,
         "headers": {
             "content-type": "application/xml",
-            "origin": "*",
-            "via": "demo",
-            "affiliateId": apiCredentials.affiliateId,
             "Authorization": "Basic " + authString.toString('base64')
         },
         body: authBody
