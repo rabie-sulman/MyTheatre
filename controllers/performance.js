@@ -33,7 +33,7 @@ const getPerformance = (host, inputs, template, callback) => {
 }
 /*
 * rules: invneotry call will return all seats avail but "bookable" seats are indicated in "seatsLumps"
-*        add to basket should be done by using s
+*        add to basket should be done by using start of avail lump (seatKey)
 */
 function processData(data) {
     var results = [];
@@ -41,9 +41,11 @@ function processData(data) {
         area.groupings.forEach(grouping => {
             grouping.seatLumps.forEach(seatLump => {
                 const seats = grouping.seats.filter(seat => [seatLump.seats[0]].includes(seat.seatIdentifier)); // filter the 1st in the lump only
+                
                 results.push({
                     seats: seats,
-                    lump: seatLump.seats.toString()
+                    lump: seatLump.seats.toString(),
+                    lumpIdentifier: grouping.aggregateReference
                 });
             })
         })

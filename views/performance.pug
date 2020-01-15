@@ -12,6 +12,8 @@ block layout-content
             th product ID
             th quantity
             th affiliate
+            th date
+            th time
           tr
             td=request.urlParams.productId
             td=request.urlParams.quantity
@@ -21,16 +23,16 @@ block layout-content
 
         table
           tr
-            th lump of seats
-            th lump's seat identifier
+            th seats
+            th salePrice
             th -
           for lump in response
             for seat in lump.seats
               tr
                 td=lump.lump
-                td=seat.seatIdentifier
+                td=seat.pricing.salePrice.currency + ' ' + (seat.pricing.salePrice.value/100).toFixed(2)
                 td
-                  a(href='/addToBasket?date='+request.query.date+'&time='+request.query.time+'&productId='+request.urlParams.productId+'&quantity='+request.urlParams.quantity+'&affiliateId='+request.query.affiliateId+'&seatKey='+seat.aggregateReference) create basket
+                  a(href='/addToBasket?date='+request.query.date+'&time='+request.query.time+'&productId='+request.urlParams.productId+'&quantity='+request.urlParams.quantity+'&seatKey='+lump.lumpIdentifier+'&number='+seat.number) create basket
     div.NavButtons
       a(href="/")
           div.NavButton Home!

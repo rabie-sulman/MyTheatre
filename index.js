@@ -6,6 +6,7 @@ const path = require("path");
 const moment = require("moment");
 const sumaryAvail = require("./controllers/summaryAvail");
 const performance = require("./controllers/performance");
+const basket = require("./controllers/basket");
 
 /**
  * App Variables
@@ -30,20 +31,20 @@ app.get("/", (req, res) => {
 });
 
 app.get("/availability", (req, res) => {
-    var host = config.env.inventory_host;
+    var host = config.env.inventory.host;
     var inputs = config.inputs;
     var availInputs = {
         productId: inputs.productId,
         ticketQuantity: inputs.ticketQuantity,
         fromDate: moment().format("YYYYMMDD"),               // today
         toDate: moment().add(1, 'weeks').format("YYYYMMDD"), // a week from now
-        affiliateId: config.env.affiliateId
+        affiliateId: config.env.inventory.affiliateId
     };
     sumaryAvail.getAvailability(host, availInputs, "availability", res);
 });
 
 app.get("/performance", (req, res) => {
-    var host = config.env.inventory_host;
+    var host = config.env.inventory.host;
     var date = req.query.date.replace(' ', '+'); //workaround because url query params removes "+"
     var availInputs = {
         productId: req.query.productId,
@@ -54,6 +55,23 @@ app.get("/performance", (req, res) => {
     };
     
     performance.getPerformance(host, availInputs, "performance", res);
+});
+
+
+app.get("/addToBasket", (req, res) => {
+    var host = config.env.eapi.host;
+    var apiCredentials = config.env.eapi.host;
+    var venueId = config.inputs.venueId;
+    var date = req.query.date + 'T' + req.query.time;
+    var availInputs = {
+        productId: req.query.productId,
+        ticketQuantity: req.query.quantity,
+        date: moment(date).format('YYYY-MM-DD'),
+        time: moment(date).format('HH:mm'),
+        venueId: venueId
+    };
+    console.log(host, availInputs, apiCredentials);
+    basket.addToBasket(host, availInputs, "basket", res);
 });
 
 /**
