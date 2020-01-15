@@ -60,7 +60,7 @@ app.get("/performance", (req, res) => {
 
 app.get("/addToBasket", (req, res) => {
     var host = config.env.eapi.host;
-    var apiCredentials = config.env.eapi.host;
+    var apiCredentials = config.env.eapi;
     var venueId = config.inputs.venueId;
     var date = req.query.date + 'T' + req.query.time;
     var availInputs = {
@@ -68,10 +68,10 @@ app.get("/addToBasket", (req, res) => {
         ticketQuantity: req.query.quantity,
         date: moment(date).format('YYYY-MM-DD'),
         time: moment(date).format('HH:mm'),
-        venueId: venueId
+        startFrom: req.query.number,
+        venueId: venueId,
     };
-    console.log(host, availInputs, apiCredentials);
-    basket.addToBasket(host, availInputs, "basket", res);
+    basket.addToBasket(host, availInputs, apiCredentials, "basket", res);
 });
 
 /**
