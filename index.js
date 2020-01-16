@@ -63,15 +63,37 @@ app.get("/addToBasket", (req, res) => {
     var apiCredentials = config.env.eapi;
     var venueId = config.inputs.venueId;
     var date = req.query.date + 'T' + req.query.time;
-    var availInputs = {
+    var addToBasketInputs = {
         productId: req.query.productId,
         ticketQuantity: req.query.quantity,
+        seatKey: req.query.seatKey,
         date: moment(date).format('YYYY-MM-DD'),
         time: moment(date).format('HH:mm'),
         startFrom: req.query.number,
         venueId: venueId,
     };
-    basket.addToBasket(host, availInputs, apiCredentials, "basket", res);
+    basket.addToBasket(host, addToBasketInputs, apiCredentials, "basket", res);
+});
+
+app.get("/deleteBasket", (req, res) => {
+    var host = config.env.eapi.host;
+    var apiCredentials = config.env.eapi;
+    var deleteBasketInputs = {
+        reference: req.query.reference,
+        password: req.query.password,
+    };
+    basket.deleteBasket(host, deleteBasketInputs, apiCredentials, "index", res);
+});
+
+
+app.get("/createBooking", (req, res) => {
+    var host = config.env.eapi.host;
+    var apiCredentials = config.env.eapi;
+    var createBooking = {
+        reference: req.query.reference,
+        password: req.query.password,
+    };
+    basket.createBooking(host, createBooking, apiCredentials, "index", res);
 });
 
 /**

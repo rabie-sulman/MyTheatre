@@ -28,6 +28,9 @@ const getAvailability = (host, inputs, template, callback) => {
         });
     }).catch(function (err) {
         console.log(err.message);
+        callback.render("error", {
+            messages: ["Error fetching performance availability"],
+        })
     });
 }
 

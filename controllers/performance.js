@@ -29,7 +29,10 @@ const getPerformance = (host, inputs, template, callback) => {
         })
     }).catch(function (err) {
         console.log(err.message);
-    });
+        callback.render("error", {
+            messages: ["Error fetching performance availability"],
+        })
+});
 }
 /*
 * rules: invneotry call will return all seats avail but "bookable" seats are indicated in "seatsLumps"

@@ -6,24 +6,63 @@ block layout-content
     div.Message
       div.Title
         h3 Best theatre tickets site
-        h1 available dates for show:
+        h1  Basket details:
         table 
           tr
-            th product ID
-            th quantity
-            th affiliate
+            th basket reference
+            th basket password
+            th action
           tr
-            td=request.urlParams.productId
-            td=request.urlParams.quantity
-            td=request.query.affiliateId
-
-        table 
-          tr
-            th datetime
-          for item in response
+            td=basketDetails.basket.transaction[0].$.reference
+            td=basketDetails.basket.transaction[0].password
+            td
+              a(href='/deleteBasket?reference='+basketDetails.basket.transaction[0].$.reference+'&password='+basketDetails.basket.transaction[0].password) delete 
+              a(href='/createBooking?reference='+basketDetails.basket.transaction[0].$.reference+'&password='+basketDetails.basket.transaction[0].password) confirm 
+        table(border=1)
+          tr 
+            th show name
+            th venue
+            th date of performance
+            th sale price for ticket
+            th number of tickets
+            th total price
+            th seats description
+          for reservation in basketDetails.basket.reservations
             tr
-              td
-                a(href='/performance?date='+item.datetime+'&productId='+request.urlParams.productId+'&quantity='+request.urlParams.quantity+'&affiliateId='+request.query.affiliateId) #{item.datetime}
+              td=reservation.reservation[0].product[0]._
+              td=reservation.reservation[0].venue[0]._
+              td=reservation.reservation[0].date[0]._
+              td=reservation.reservation[0].price[0].salePrice[0]._
+              td=reservation.reservation[0].price[0].quantity[0]
+              td=reservation.reservation[0].price[0].total[0]._
+              td=reservation.reservation[0].block[0].description[0]+ ' ' + reservation.reservation[0].block[0].seats[0]._
+        h1 customer details:
+        p(style='white-space:pre;') 
+          |assuming that after create basket, 
+          |you take the payment and capture customer details
+          |then you proceed to creating the booking which will
+          |confirm the booking at Encore and at the venue
+        table(border=1)
+          tr
+            th title
+            th first name
+            th last name
+            th email
+            th address
+            th phone
+          tr
+            td=customer.title
+            td=customer.firstName
+            td=customer.lastName
+            td=customer.email
+            td
+              p(style='white-space:pre;')
+                | #{customer.address.line1}
+                | #{customer.address.line2}
+                | #{customer.address.city}
+                | #{customer.address.postcode}
+                | #{customer.address.country}
+            td=customer.phone
     div.NavButtons
       a(href="/")
           div.NavButton Home!
