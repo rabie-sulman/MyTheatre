@@ -93,7 +93,7 @@ app.get("/createBooking", (req, res) => {
         reference: req.query.reference,
         password: req.query.password,
     };
-    basket.createBooking(host, createBooking, apiCredentials, "index", res);
+    basket.createBooking(host, createBooking, apiCredentials, "booking", res);
 });
 
 /**

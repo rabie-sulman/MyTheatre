@@ -9,6 +9,7 @@ var parser = new xml2js.Parser();
 
 var authURI = 'booking/authenticate';
 var basketURI = 'booking/basket';
+var bookingURI = 'booking/book';
 
 const getAuthString = (apiCredentials) => {
     return Buffer.from(apiCredentials.affiliateId + ':' + apiCredentials.affiliatePassword);
@@ -127,7 +128,7 @@ const createBooking = (host, inputs, apiCredentials, template, callback) => {
     }).then(function (data) {
         parser.parseString(data, function (err, result){
             var createBookingBody = getCreateBookingBody(inputs, apiCredentials, result.agent.session, staticCustomerData);
-            var url = new URL(basketURI, host);
+            var url = new URL(bookingURI, host);
             request({
                 "method":"POST", 
                 "uri": url.toString(),
@@ -136,11 +137,11 @@ const createBooking = (host, inputs, apiCredentials, template, callback) => {
                     "content-type": "application/xml",
                     "Authorization": "Basic " + authString.toString('base64')
                 },
-                body: deleteBasketBody
+                body: createBookingBody
             }).then(function (data){
-                console.log("deleted");
+                console.log("booked!");
                 callback.render(template, {
-                    messages: ["booking: <" + inputs.reference + "> deleted"],
+                    messages: ["booking: <" + inputs.reference + "> has been successful!"],
                 })
             }).catch(function(err){
                 console.log(err.message);
