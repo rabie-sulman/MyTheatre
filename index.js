@@ -2,6 +2,7 @@
  * Required External Modules
  */
 const express = require("express");
+var qs = require('qs');
 const path = require("path");
 const moment = require("moment");
 const sumaryAvail = require("./controllers/summaryAvail");
@@ -14,6 +15,9 @@ const basket = require("./controllers/basket");
 const app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
+app.set('query parser', function (str) {
+    return qs.parse(str, { decoder: function (s) { return decodeURIComponent(s); } });
+});
 app.use(express.static(path.join(__dirname, "public")));
 
 /**

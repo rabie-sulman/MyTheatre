@@ -238,6 +238,8 @@ const getCreateBookingBody = (inputs, apiCredentials, session, customer) => {
     }); 
 }
 const getAddToBasketBody = (inputs, apiCredentials, session) => {
+    var seatKey = new Buffer(inputs.seatKey, 'base64');
+    seatKey = seatKey.toString('ascii');    
     return xmlBuilder.buildObject({
         basket: {
             product: {
@@ -260,7 +262,7 @@ const getAddToBasketBody = (inputs, apiCredentials, session) => {
                 startFrom: inputs.startFrom,
                 seat: {
                     $: {
-                        key: inputs.seatKey
+                        key: seatKey
                     }
                 }
             },
