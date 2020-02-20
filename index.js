@@ -49,7 +49,7 @@ app.get("/availability", (req, res) => {
 
 app.get("/performance", (req, res) => {
     var host = config.env.inventory.host;
-    var date = req.query.date.replace(' ', '+'); //workaround because url query params removes "+"
+    var date = moment.parseZone(req.query.date);
     var availInputs = {
         productId: req.query.productId,
         ticketQuantity: req.query.quantity,
