@@ -2,6 +2,7 @@
  * Required External Modules
  */
 const express = require("express");
+var qs = require('qs');
 const path = require("path");
 const moment = require("moment");
 const sumaryAvail = require("./controllers/summaryAvail");
@@ -14,6 +15,9 @@ const basket = require("./controllers/basket");
 const app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
+app.set('query parser', function (str) {
+    return qs.parse(str, { decoder: function (s) { return decodeURIComponent(s); } });
+});
 app.use(express.static(path.join(__dirname, "public")));
 
 /**
@@ -45,7 +49,7 @@ app.get("/availability", (req, res) => {
 
 app.get("/performance", (req, res) => {
     var host = config.env.inventory.host;
-    var date = req.query.date.replace(' ', '+'); //workaround because url query params removes "+"
+    var date = moment.parseZone(req.query.date);
     var availInputs = {
         productId: req.query.productId,
         ticketQuantity: req.query.quantity,
