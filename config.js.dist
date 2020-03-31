@@ -5,7 +5,7 @@ const env = {
         affiliateId: '',
     },
     eapi: {
-        host: 'https://api.entstix.com/api/v1/xtest/',
+        host: 'https://eapi.staging.aws.encoretix.co.uk/api/v1/xtest',
         affiliateId: '',
         affiliatePassword: '',
         agentId: '',
