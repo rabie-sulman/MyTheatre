@@ -10,13 +10,16 @@ const getAvailability = (inputs, template, callback, inventoryService) => {
     fromDate,
     toDate,
   ).then((data) => {
-    const listOfAvailableTime = data.getCollection().map(availabilityItem => (
-      {
-        datetime: availabilityItem.getRawDateTime(),
-        date: moment(availabilityItem.getRawDateTime()).utc().format('YYYYMMDD'),
-        time: moment(availabilityItem.getRawDateTime()).utc().format('HHmm'),
+    const listOfAvailableTime = data.getCollection().map(availabilityItem => {
+      const rawTime = availabilityItem.getRawDateTime();
+      const rawTimeMoment = moment(rawTime).utc();
+
+      return {
+        datetime: rawTime,
+        date: rawTimeMoment.format('YYYYMMDD'),
+        time: rawTimeMoment.format('HHmm'),
       }
-    ));
+    });
 
     callback.render(template, { inputs, listOfAvailableTime });
   }).catch((err) => {

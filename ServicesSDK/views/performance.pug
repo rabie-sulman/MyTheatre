@@ -34,8 +34,8 @@ block layout-content
                 td(style='width: 200px; padding: 10px;') #{group.groupIdentifier}
                 td(style='width: 100px') #{group.prices.salePrice[0].currency + ' ' + (group.prices.salePrice[0].value/100).toFixed(2)}
                 td
-                  each seat in group.seats
-                    a(href=`/addToBasket?productId=${inputs.productId}&quantity=${inputs.quantity}&date=${inputs.datetime}&aggregateReference=${seat.aggregareReference}` style='padding-right: 10px;') #{seat.seatIdentifier}
+                  each seatLump in group.seatLumps
+                    a(href=`/addToBasket?productId=${inputs.productId}&quantity=${inputs.quantity}&date=${inputs.datetime}&aggregateReferences=${seatLump.aggregateReferences}` style='display: inline-block; padding: 5px;') [#{seatLump.seatIdentifiers}]
     div.NavButtons
       a(href="/")
           div.NavButton Home!
