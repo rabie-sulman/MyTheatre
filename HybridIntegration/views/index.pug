@@ -1,15 +1,14 @@
 extends layout
 
 block layout-content
-  div.View
-    h1.Banner MyTheatre
-    -if(messages)
-        div#note(style='font-weight:bold') #{messages}
-    div.Message
-      div.Title
-        h3 Best theatre tickets site
-        h1 Start your journey, here!
-      span.Details let's try for "Wicked"
-    div.NavButtons
-      a(href="/availability")
-          div.NavButton Show me availability!
+  span.Details Let's try for "Wicked"
+  -if(messages)
+    div(class="alert alert-info" role="alert")
+      div#note #{messages}
+  div.NavButtons
+    a(href="/availability")
+        div.NavButton Show me availability in manual mode!
+    a(href="/product-external")
+        div.NavButton Show me availability in widget mode (with external basket)!
+    a(href="/product")
+        div.NavButton Show me availability in widget mode (with internal basket)!

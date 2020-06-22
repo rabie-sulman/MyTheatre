@@ -1,38 +1,35 @@
 extends layout
 
 block layout-content
-  div.View
-    h1.Banner MyTheatre
-    div.Message
-      div.Title
-        h3 Best theatre tickets site
-        h1 available dates for show:
-        table 
-          tr
-            th product ID
-            th quantity
-            th affiliate
-            th date
-            th time
-          tr
-            td=request.urlParams.productId
-            td=request.urlParams.quantity
-            td=request.query.affiliateId
-            td=request.query.date
-            td=request.query.time
+  div.card
+    div.card-body
+      div
+        b product ID - 
+        =request.urlParams.productId
+      div
+        b quantity   - 
+        =request.urlParams.quantity
+      div
+        b affiliate  - 
+        =request.query.affiliateId
+      div
+        b date  - 
+        =request.query.date
+      div
+        b time  - 
+        =request.query.time
 
-        table
+  table.table
+    thead
+      tr
+        th(score="col") Seats in lump
+        th(score="col") Sale price
+        th(score="col")
+    tbody
+      for lump in response
+        for seat in lump.seats
           tr
-            th seats
-            th salePrice
-            th -
-          for lump in response
-            for seat in lump.seats
-              tr
-                td=lump.lump
-                td=seat.pricing.salePrice.currency + ' ' + (seat.pricing.salePrice.value/100).toFixed(2)
-                td
-                  a(href='/addToBasket?date='+request.query.date+'&time='+request.query.time+'&productId='+request.urlParams.productId+'&quantity='+request.urlParams.quantity+'&seatKey='+lump.lumpIdentifier+'&number='+seat.number) create basket
-    div.NavButtons
-      a(href="/")
-          div.NavButton Home!
+            td(score="row")=lump.lump
+            td(score="row")=seat.pricing.salePrice.currency + ' ' + (seat.pricing.salePrice.value/100).toFixed(2)
+            td(score="row")
+              a(href='/addToBasket?date='+request.query.date+'&time='+request.query.time+'&productId='+request.urlParams.productId+'&quantity='+request.urlParams.quantity+'&seatKey='+lump.lumpIdentifier+'&number='+seat.number) create basket

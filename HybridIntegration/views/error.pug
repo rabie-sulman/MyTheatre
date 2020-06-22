@@ -1,15 +1,10 @@
 extends layout
 
 block layout-content
-  div.View
-    h1.Banner MyTheatre
-    -if(messages)
-        div#note #{messages}
-    div.Message
-      div.Title
-        h3 Best theatre tickets site
-        h1 Start your journey, here!
-      span.Details let's try for "Wicked"
-    div.NavButtons
-      a(href="/availability")
-          div.NavButton Show me availability!
+  br
+  -if(messages)
+    div(class="alert alert-danger" role="alert")
+      div#note #{messages}
+  div.NavButtons
+    a(href="/")
+        div.NavButton Back to home page

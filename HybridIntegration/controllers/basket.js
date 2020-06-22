@@ -46,6 +46,8 @@ const addToBasket = (host, inputs, apiCredentials, template, callback) => {
                     callback.render(template, {
                         basketDetails: result,
                         customer: staticCustomerData,
+                        title: 'Basket page',
+                        subtitle: 'Basket details:',
                     });
                 });
             }).catch(function(err){
@@ -54,6 +56,7 @@ const addToBasket = (host, inputs, apiCredentials, template, callback) => {
                     console.log(result);
                 });
                 callback.render("error", {
+                    title: 'Basket page',
                     messages: ["error in add to basket - try again"],
                 })
             });
@@ -61,6 +64,7 @@ const addToBasket = (host, inputs, apiCredentials, template, callback) => {
     }).catch(function (err) {
         console.log(err.message);
         callback.render("error", {
+            title: 'Basket page',
             messages: ["error in auth - try again"],
         })
     });
@@ -95,11 +99,13 @@ const deleteBasket = (host, inputs, apiCredentials, template, callback) => {
             }).then(function (data){
                 console.log("deleted");
                 callback.render(template, {
+                    title: 'Basket page',
                     messages: ["booking: <" + inputs.reference + "> deleted"],
                 })
             }).catch(function(err){
                 console.log(err.message);
                 callback.render(template, {
+                    title: 'Basket page',
                     messages: ["unable to delete booking: <" + inputs.reference + ">"],
                 })
             });
@@ -107,6 +113,7 @@ const deleteBasket = (host, inputs, apiCredentials, template, callback) => {
     }).catch(function (err) {
         console.log(err.message);
         callback.render("error", {
+            title: 'Basket page',
             messages: ["error in auth - try again"],
         })
     });
@@ -141,11 +148,13 @@ const createBooking = (host, inputs, apiCredentials, template, callback) => {
             }).then(function (data){
                 console.log("booked!");
                 callback.render(template, {
+                    title: 'Basket page',
                     messages: ["booking: <" + inputs.reference + "> has been successful!"],
                 })
             }).catch(function(err){
                 console.log(err.message);
                 callback.render(template, {
+                    title: 'Basket page',
                     messages: ["unable to delete booking: <" + inputs.reference + ">"],
                 })
             });
@@ -153,6 +162,7 @@ const createBooking = (host, inputs, apiCredentials, template, callback) => {
     }).catch(function (err) {
         console.log(err.message);
         callback.render("error", {
+            title: 'Basket page',
             messages: ["error in auth - try again"],
         })
     });

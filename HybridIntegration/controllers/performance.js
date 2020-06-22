@@ -26,10 +26,13 @@ const getPerformance = (host, inputs, template, callback) => {
         callback.render(template, {
             request: data.request,
             response: processData(data),
+            title: 'Product page',
+            subtitle: 'Available dates for show:',
         })
     }).catch(function (err) {
         console.log(err.message);
         callback.render("error", {
+            title: 'Product page',
             messages: ["Error fetching performance availability"],
         })
 });
@@ -47,7 +50,7 @@ function processData(data) {
                 
                 results.push({
                     seats: seats,
-                    lump: seatLump.seats.toString(),
+                    lump: seatLump.seats.join(', '),
                     lumpIdentifier: grouping.aggregateReference
                 });
             })
