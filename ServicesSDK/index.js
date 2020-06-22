@@ -5,10 +5,11 @@ const express = require('express');
 const qs = require('qs');
 const path = require('path');
 const moment = require('moment');
-const { inventoryService, basketService } = require('tte-api-services/node');
-const summaryAvail = require('./controllers/summaryAvail');
-const performance = require('./controllers/performance');
+const { inventoryService, basketService, checkoutService } = require('tte-api-services/node');
+const summaryAvailability = require('./controllers/summary-availability');
+const performanceController = require('./controllers/performance');
 const basketController = require('./controllers/basket');
+const checkoutController = require('./controllers/checkout');
 
 /**
  * App Variables
@@ -35,6 +36,7 @@ app.set(config, config);
  */
 const inventory = inventoryService.create(config.settings.environment);
 const basket = basketService.create(config.settings.environment);
+const checkout = checkoutService.create(config.settings.environment);
 
 /**
  * Routes Definitions
@@ -55,7 +57,7 @@ app.get('/availability', (req, res) => {
     environment,
   };
 
-  summaryAvail.getAvailability(availabilityInputs, 'availability', res, inventory);
+  summaryAvailability.getAvailability(availabilityInputs, 'availability', res, inventory);
 });
 
 app.get('/performance', (req, res) => {
@@ -69,19 +71,20 @@ app.get('/performance', (req, res) => {
     datetime,
   };
 
-  performance.getPerformance(availabilityInputs, 'performance', res, inventory);
+  performanceController.getPerformance(availabilityInputs, 'performance', res, inventory);
 });
 
 
 app.get('/addToBasket', (req, res) => {
-  const { productId, quantity, date, aggregateReference } = req.query;
+  const { productId, quantity, date, aggregateReferences } = req.query;
+  const items = aggregateReferences.split(',').map(aggregateReference => ({ aggregateReference }));
   const { channelId } = config.settings;
   const { venueId } = config.inputs;
   const addToBasketInputs = {
     channelId,
     productId,
     quantity,
-    aggregateReference,
+    items,
     date,
     venueId,
   };
@@ -89,25 +92,20 @@ app.get('/addToBasket', (req, res) => {
   basketController.addToBasket(addToBasketInputs, 'basket', res, basket);
 });
 
-app.get('/deleteBasket', (req, res) => {
-  const host = config.env.eapi.host;
-  const apiCredentials = config.env.eapi;
-  const deleteBasketInputs = {
-    reference: req.query.reference,
-    password: req.query.password,
-  };
-  basketController.deleteBasket(host, deleteBasketInputs, apiCredentials, 'index', res);
+app.get('/deleteItem', (req, res) => {
+  const { reference, itemId } = req.query;
+  const deleteBasketInputs = { reference, itemId };
+
+  basketController.deleteItem(deleteBasketInputs, 'basket', res, basket);
 });
 
 
 app.get('/createBooking', (req, res) => {
-  const host = config.env.eapi.host;
-  const apiCredentials = config.env.eapi;
-  const createBooking = {
-    reference: req.query.reference,
-    password: req.query.password,
-  };
-  basketController.createBooking(host, createBooking, apiCredentials, 'booking', res);
+  const { reference } = req.query;
+  const { channelId } = config.settings;
+  const createBookingInputs = { channelId, reference };
+
+  checkoutController.createBooking(createBookingInputs, 'booking', res, checkout);
 });
 
 /**

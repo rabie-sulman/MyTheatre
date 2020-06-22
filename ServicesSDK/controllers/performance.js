@@ -23,23 +23,27 @@ const getPerformance = (inputs, template, callback, inventoryService) => {
 const processData = (data) => (
   data.getAreas().map(area => {
     const areaName = area.getName();
+
     const groupings = area.getGroupings().map(group => {
       const groupIdentifier = group.getGroupIdentifier();
       const prices = group.getPricing();
-      const seats = group.getSeats().map(seat => {
-        const aggregareReference = seat.getAggregateReference();
-        const seatIdentifier = seat.getSeatIdentifier();
+      const seats = group.getSeats();
+      const seatLumps = group.getSeatLumps().map(seatLump => {
+        const seatIdentifiers = seatLump.getSeatIdentifiers();
+        const aggregateReferences = seats
+          .filter(seat => seatIdentifiers.includes(seat.getSeatIdentifier()))
+          .map(seat => seat.getAggregateReference());
 
         return {
-          aggregareReference,
-          seatIdentifier,
-        }
+          seatIdentifiers,
+          aggregateReferences,
+        };
       });
 
       return {
         groupIdentifier,
         prices,
-        seats,
+        seatLumps,
       }
     })
 
