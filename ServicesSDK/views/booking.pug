@@ -1,0 +1,10 @@
+extends layout
+
+block layout-content
+  div.View
+    h1.Banner MyTheatre
+    -if(messages)
+        div#note(style='font-weight:bold') #{messages}
+    div.NavButtons
+      a(href="/")
+          div.NavButton Home!
