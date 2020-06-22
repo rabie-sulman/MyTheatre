@@ -33,6 +33,7 @@ const deleteItem = (inputs, template, callback, basketService) => {
   }).catch((err) => {
     console.log(err.message);
     callback.render("error", {
+      title: pageTitle,
       messages: ["Error fetching performance availability"],
     })
   });
