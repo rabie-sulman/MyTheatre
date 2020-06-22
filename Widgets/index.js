@@ -1,3 +1,6 @@
+/**
+ * Required External Modules
+ */
 const express = require('express');
 const qs = require('qs');
 const path = require('path');
@@ -6,6 +9,9 @@ const { basketService, checkoutService } = require('tte-api-services/node');
 const basketController = require('./controllers/basket');
 const checkoutController = require('./controllers/checkout');
 
+/**
+ * App Variables
+ */
 const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -14,6 +20,9 @@ app.set('query parser', function (str) {
 });
 app.use(express.static(path.join(__dirname, 'public')));
 
+/**
+ *  App Configuration
+ */
 const port = process.env.PORT || '3000';
 var config = require('./config');
 app.set(config, config);
@@ -21,6 +30,9 @@ app.set(config, config);
 const basket = basketService.create(config.settings.environment);
 const checkout = checkoutService.create(config.settings.environment);
 
+/**
+ * Routes Definitions
+ */
 app.get('/', (req, res) => {
     res.render('index', { title: 'Home', subtitle: 'Start your journey, here!' });
 });
@@ -106,33 +118,36 @@ app.get('/addToBasket', (req, res) => {
     const { channelId } = config.settings;
     const { venueId } = config.inputs;
     const addToBasketInputs = {
-      channelId,
-      productId,
-      quantity,
-      items,
-      date,
-      venueId,
+        channelId,
+        productId,
+        quantity,
+        items,
+        date,
+        venueId,
     };
-  
+
     basketController.addToBasket(addToBasketInputs, 'basket', res, basket);
-  });
-  
-  app.get('/deleteItem', (req, res) => {
+});
+
+app.get('/deleteItem', (req, res) => {
     const { reference, itemId } = req.query;
     const deleteBasketInputs = { reference, itemId };
-  
+
     basketController.deleteItem(deleteBasketInputs, 'basket', res, basket);
-  });
-  
-  
-  app.get('/createBooking', (req, res) => {
+});
+
+
+app.get('/createBooking', (req, res) => {
     const { reference } = req.query;
     const { channelId } = config.settings;
     const createBookingInputs = { channelId, reference };
-  
-    checkoutController.createBooking(createBookingInputs, 'booking', res, checkout);
-  });
 
+    checkoutController.createBooking(createBookingInputs, 'booking', res, checkout);
+});
+
+/**
+ * Server Activation
+ */
 app.listen(port, () => {
     console.log(`Listening to requests on http://localhost:${port}`);
 });
