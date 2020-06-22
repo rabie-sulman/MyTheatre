@@ -1,7 +1,7 @@
 const {URL} = require('url');
 var request = require('request-promise');
 var xml2js = require('xml2js');
-const staticCustomerData = require("../customerData.json");
+const staticCustomerData = require('../customerData.json');
 
 
 var xmlBuilder = new xml2js.Builder();
@@ -10,6 +10,8 @@ var parser = new xml2js.Parser();
 var authURI = 'booking/authenticate';
 var basketURI = 'booking/basket';
 var bookingURI = 'booking/book';
+
+const pageTitle = 'Basket page';
 
 const getAuthString = (apiCredentials) => {
   return Buffer.from(apiCredentials.affiliateId + ':' + apiCredentials.affiliatePassword);
@@ -35,8 +37,9 @@ const addToBasket = (inputs, template, callback, basketService) => {
     console.log(data);
   }).catch((err) => {
     console.log(err.message);
-    callback.render("error", {
-      messages: ["Error fetching performance availability"],
+    callback.render('error', {
+      title: pageTitle,
+      messages: ['Error fetching performance availability'],
     })
   });
 }
@@ -46,12 +49,12 @@ const deleteBasket = (host, inputs, apiCredentials, template, callback) => {
   var authString = getAuthString(apiCredentials);
   var url = new URL(authURI, host);
   request({
-    "method": "POST",
-    "uri": url.toString(),
-    "json": false,
-    "headers": {
-      "content-type": "application/xml",
-      "Authorization": "Basic " + authString.toString('base64')
+    'method': 'POST',
+    'uri': url.toString(),
+    'json': false,
+    'headers': {
+      'content-type': 'application/xml',
+      'Authorization': 'Basic ' + authString.toString('base64')
     },
     body: authBody
   }).then(function (data) {
@@ -59,30 +62,33 @@ const deleteBasket = (host, inputs, apiCredentials, template, callback) => {
       var deleteBasketBody = getDeleteBasketBody(inputs, apiCredentials, result.agent.session);
       var url = new URL(basketURI, host);
       request({
-        "method": "DELETE",
-        "uri": url.toString(),
-        "json": false,
-        "headers": {
-          "content-type": "application/xml",
-          "Authorization": "Basic " + authString.toString('base64')
+        'method': 'DELETE',
+        'uri': url.toString(),
+        'json': false,
+        'headers': {
+          'content-type': 'application/xml',
+          'Authorization': 'Basic ' + authString.toString('base64')
         },
         body: deleteBasketBody
       }).then(function (data) {
-        console.log("deleted");
+        console.log('deleted');
         callback.render(template, {
-          messages: ["booking: <" + inputs.reference + "> deleted"],
+          title: pageTitle,
+          messages: ['booking: <' + inputs.reference + '> deleted'],
         })
       }).catch(function (err) {
         console.log(err.message);
         callback.render(template, {
-          messages: ["unable to delete booking: <" + inputs.reference + ">"],
+          title: pageTitle,
+          messages: ['unable to delete booking: <' + inputs.reference + '>'],
         })
       });
     });
   }).catch(function (err) {
     console.log(err.message);
-    callback.render("error", {
-      messages: ["error in auth - try again"],
+    callback.render('error', {
+      title: pageTitle,
+      messages: ['error in auth - try again'],
     })
   });
 }
@@ -92,12 +98,12 @@ const createBooking = (host, inputs, apiCredentials, template, callback) => {
   var authString = getAuthString(apiCredentials);
   var url = new URL(authURI, host);
   request({
-    "method": "POST",
-    "uri": url.toString(),
-    "json": false,
-    "headers": {
-      "content-type": "application/xml",
-      "Authorization": "Basic " + authString.toString('base64')
+    'method': 'POST',
+    'uri': url.toString(),
+    'json': false,
+    'headers': {
+      'content-type': 'application/xml',
+      'Authorization': 'Basic ' + authString.toString('base64')
     },
     body: authBody
   }).then(function (data) {
@@ -105,30 +111,33 @@ const createBooking = (host, inputs, apiCredentials, template, callback) => {
       var createBookingBody = getCreateBookingBody(inputs, apiCredentials, result.agent.session, staticCustomerData);
       var url = new URL(bookingURI, host);
       request({
-        "method": "POST",
-        "uri": url.toString(),
-        "json": false,
-        "headers": {
-          "content-type": "application/xml",
-          "Authorization": "Basic " + authString.toString('base64')
+        'method': 'POST',
+        'uri': url.toString(),
+        'json': false,
+        'headers': {
+          'content-type': 'application/xml',
+          'Authorization': 'Basic ' + authString.toString('base64')
         },
         body: createBookingBody
       }).then(function (data) {
-        console.log("booked!");
+        console.log('booked!');
         callback.render(template, {
-          messages: ["booking: <" + inputs.reference + "> has been successful!"],
+          title: pageTitle,
+          messages: ['booking: <' + inputs.reference + '> has been successful!'],
         })
       }).catch(function (err) {
         console.log(err.message);
         callback.render(template, {
-          messages: ["unable to delete booking: <" + inputs.reference + ">"],
+          title: pageTitle,
+          messages: ['unable to delete booking: <' + inputs.reference + '>'],
         })
       });
     });
   }).catch(function (err) {
     console.log(err.message);
-    callback.render("error", {
-      messages: ["error in auth - try again"],
+    callback.render('error', {
+      title: pageTitle,
+      messages: ['error in auth - try again'],
     })
   });
 }

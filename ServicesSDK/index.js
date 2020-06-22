@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 /**
  *  App Configuration
  */
-const port = process.env.PORT || '8000';
+const port = process.env.PORT || '3000';
 const config = require('./config');
 app.set(config, config);
 

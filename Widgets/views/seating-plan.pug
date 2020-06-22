@@ -7,9 +7,9 @@ block layout-content
     script(src=`${configuration.apiPath}/${configuration.widgetVersion}/js/venue-app.js`)
     script(src=`${configuration.apiPath}/${configuration.widgetVersion}/js/venue-seat-summary-app.js`)
     script.
-      window.addEventListener('venue-app_selected-seats-summary-on-addtobasket', function(event) {
+      window.addEventListener("venue-app_selected-seats-summary-on-addtobasket", function(event) {
         const details = event.detail || {};
         const selectedElement = details.selectedElement;
         const performanceParams = details.performanceParams;
-        window.location.href = '/addToBasket?date='+performanceParams.performanceDate+'&time='+performanceParams.performanceTime+'&productId='+performanceParams.productId+'&quantity='+performanceParams.quantity+'&seatKey='+selectedElement[0].seatKey+'&number='+selectedElement[0].number;
+        window.location.href = "/addToBasket?date="+performanceParams.performanceDate+"&time="+performanceParams.performanceTime+"&productId="+performanceParams.productId+"&quantity="+performanceParams.quantity+"&seatKey="+selectedElement[0].seatKey+"&number="+selectedElement[0].number;
       });

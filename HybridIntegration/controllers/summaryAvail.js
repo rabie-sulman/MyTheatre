@@ -12,14 +12,14 @@ const getAvailability = (host, inputs, template, callback) => {
 
     var url = new URL(availURI, host);
     request({
-        "method":"GET", 
-        "uri": url.toString(),
-        "json": true,
-        "headers": {
-            "content-type": "application/json",
-            "origin": "*",
-            "via": "demo",
-            "affiliateId": affiliateId
+        'method':'GET', 
+        'uri': url.toString(),
+        'json': true,
+        'headers': {
+            'content-type': 'application/json',
+            'origin': '*',
+            'via': 'demo',
+            'affiliateId': affiliateId
         }
     }).then(function (data) {
         callback.render(template, {
@@ -30,9 +30,9 @@ const getAvailability = (host, inputs, template, callback) => {
         });
     }).catch(function (err) {
         console.log(err.message);
-        callback.render("error", {
+        callback.render('error', {
             title: 'Product page',
-            messages: ["Error fetching performance availability"],
+            messages: ['Error fetching performance availability'],
         })
     });
 }

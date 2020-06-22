@@ -12,8 +12,8 @@ block layout-content
         td(scope="row")=basketDetails.basket.transaction[0].$.reference
         td(scope="row")=basketDetails.basket.transaction[0].password
         td(scope="row")
-          a(href='/deleteBasket?reference='+basketDetails.basket.transaction[0].$.reference+'&password='+basketDetails.basket.transaction[0].password) delete 
-          a(href='/createBooking?reference='+basketDetails.basket.transaction[0].$.reference+'&password='+basketDetails.basket.transaction[0].password) confirm 
+          a(href="/deleteBasket?reference="+basketDetails.basket.transaction[0].$.reference+"&password="+basketDetails.basket.transaction[0].password) delete 
+          a(href="/createBooking?reference="+basketDetails.basket.transaction[0].$.reference+"&password="+basketDetails.basket.transaction[0].password) confirm 
   br
   table(border=1).table
     thead
@@ -34,10 +34,10 @@ block layout-content
           td(scope="row")=reservation.reservation[0].price[0].salePrice[0]._
           td(scope="row")=reservation.reservation[0].price[0].quantity[0]
           td(scope="row")=reservation.reservation[0].price[0].total[0]._
-          td(scope="row")=reservation.reservation[0].block[0].description[0]+ ' ' + reservation.reservation[0].block[0].seats[0]._
+          td(scope="row")=reservation.reservation[0].block[0].description[0]+ " " + reservation.reservation[0].block[0].seats[0]._
   br
   h1 customer details:
-  p(style='white-space:pre;') 
+  p(style="white-space:pre;") 
     |assuming that after create basket, 
     |you take the payment and capture customer details
     |then you proceed to creating the booking which will

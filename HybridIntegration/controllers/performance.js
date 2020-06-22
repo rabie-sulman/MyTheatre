@@ -12,14 +12,14 @@ const getPerformance = (host, inputs, template, callback) => {
 
     var url = new URL(availURI, host);
     request({
-        "method":"GET", 
-        "uri": url.toString(),
-        "json": true,
-        "headers": {
-            "content-type": "application/json",
-            "origin": "*",
-            "via": "demo",
-            "affiliateId": affiliateId
+        'method':'GET', 
+        'uri': url.toString(),
+        'json': true,
+        'headers': {
+            'content-type': 'application/json',
+            'origin': '*',
+            'via': 'demo',
+            'affiliateId': affiliateId
         },
         qs: queryParam
     }).then(function (data) {
@@ -31,14 +31,14 @@ const getPerformance = (host, inputs, template, callback) => {
         })
     }).catch(function (err) {
         console.log(err.message);
-        callback.render("error", {
+        callback.render('error', {
             title: 'Product page',
-            messages: ["Error fetching performance availability"],
+            messages: ['Error fetching performance availability'],
         })
 });
 }
 /*
-* rules: invneotry call will return all seats avail but "bookable" seats are indicated in "seatsLumps"
+* rules: invneotry call will return all seats avail but 'bookable' seats are indicated in 'seatsLumps'
 *        add to basket should be done by using start of avail lump (seatKey)
 */
 function processData(data) {

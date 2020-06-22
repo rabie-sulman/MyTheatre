@@ -13,9 +13,9 @@ const getPerformance = (inputs, template, callback, inventoryService) => {
     callback.render(template, { inputs, availabilityData, title: 'Product page', subtitle: 'Available dates for show:' });
   }).catch((err) => {
     console.log(err.message);
-    callback.render("error", {
+    callback.render('error', {
       title: 'Product page',
-      messages: ["Error fetching performance availability"],
+      messages: ['Error fetching performance availability'],
     })
   });
 }

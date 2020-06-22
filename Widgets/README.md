@@ -9,31 +9,28 @@ This is a mock website which integrates with Encore's APIs and runs a user journ
 For the purpose of this demo, the mock site uses static data for environment and data inputs in `config.js` as follows:
 
 ```javascript
-// staging environment
-const env = {
+const settings = {
+    affiliateId: '',
+    channelId: '',
+    environment: 'prod',
     inventory: {
-        host: 'https://inventory-service.stagingtixuk.io/',
-        affiliateId: '',
+      host: 'https://inventory-service.tixuk.io',
+      widgetVersion: 'vLatest',
     },
-    eapi: {
-        host: 'https://eapi.staging.aws.encoretix.co.uk/api/v1/xtest',
-        affiliateId: '',
-        affiliatePassword: '',
-        agentId: '',
-        agentPassword: '',
-        env: 'test',
-    }
-};
-
-const inputs = {
+    venue: {
+      host: 'https://venue-service.tixuk.io',
+      widgetVersion: 'vLatest',
+      redirectUrl: 'https://encoretickets.co.uk',
+    },
+  };
+  const inputs = {
     productId: 1587,
     venueId: 138,
-    ticketQuantity: 2,
-    periodAvailability: 7 //days
-}
-
-module.exports.env = env;
-module.exports.inputs = inputs;
+    quantity: 1,
+    periodAvailability: 7, //days
+  }
+  module.exports.settings = settings;
+  module.exports.inputs = inputs;
 ```
 The values left as empty `''` are the API credentials which Encore will provide. The API hosts are environment-specific.
 

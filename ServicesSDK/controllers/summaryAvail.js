@@ -21,9 +21,9 @@ const getAvailability = (inputs, template, callback, inventoryService) => {
     callback.render(template, { inputs, listOfAvailableTime, title: 'Product page' });
   }).catch((err) => {
     console.log(err.message);
-    callback.render("error", {
+    callback.render('error', {
       title: 'Product page',
-      messages: ["Error fetching performance availability"],
+      messages: ['Error fetching performance availability'],
     })
   });
 }

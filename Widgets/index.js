@@ -1,15 +1,9 @@
-/**
- * Required External Modules
- */
 const express = require('express');
 const qs = require('qs');
 const path = require('path');
 const moment = require('moment');
 const basket = require('./controllers/basket');
 
-/**
- * App Variables
- */
 const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -18,16 +12,10 @@ app.set('query parser', function (str) {
 });
 app.use(express.static(path.join(__dirname, 'public')));
 
-/**
- *  App Configuration
- */
-const port = process.env.PORT || '8000';
+const port = process.env.PORT || '3000';
 var config = require('./config');
 app.set(config, config);
 
-/**
- * Routes Definitions
- */
 app.get('/', (req, res) => {
     res.render('index', { title: 'Home', subtitle: 'Start your journey, here!' });
 });
@@ -144,9 +132,6 @@ app.get('/createBooking', (req, res) => {
     basket.createBooking(host, createBooking, apiCredentials, 'booking', res);
 });
 
-/**
- * Server Activation
- */
 app.listen(port, () => {
     console.log(`Listening to requests on http://localhost:${port}`);
 });
