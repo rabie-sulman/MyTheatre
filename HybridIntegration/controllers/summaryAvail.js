@@ -12,7 +12,7 @@ const getAvailability = (host, inputs, template, callback) => {
 
     var url = new URL(availURI, host);
     request({
-        'method':'GET', 
+        'method': 'GET', 
         'uri': url.toString(),
         'json': true,
         'headers': {

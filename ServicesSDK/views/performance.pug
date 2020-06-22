@@ -34,6 +34,3 @@ block layout-content
                 td
                   each seatLump in group.seatLumps
                     a(href=`/addToBasket?productId=${inputs.productId}&quantity=${inputs.quantity}&date=${inputs.datetime}&aggregateReferences=${seatLump.aggregateReferences}` style='display: inline-block; padding: 5px;') [#{seatLump.seatIdentifiers}]
-    div.NavButtons
-      a(href="/")
-          div.NavButton Home!

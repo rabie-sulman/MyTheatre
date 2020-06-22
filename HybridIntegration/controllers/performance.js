@@ -12,7 +12,7 @@ const getPerformance = (host, inputs, template, callback) => {
 
     var url = new URL(availURI, host);
     request({
-        'method':'GET', 
+        'method': 'GET', 
         'uri': url.toString(),
         'json': true,
         'headers': {
@@ -37,7 +37,7 @@ const getPerformance = (host, inputs, template, callback) => {
 });
 }
 /*
-* rules: invneotry call will return all seats avail but 'bookable' seats are indicated in 'seatsLumps'
+* rules: inventory call will return all seats avail but 'bookable' seats are indicated in 'seatsLumps'
 *        add to basket should be done by using start of avail lump (seatKey)
 */
 function processData(data) {

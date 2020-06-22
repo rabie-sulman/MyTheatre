@@ -20,7 +20,7 @@ const addToBasket = (host, inputs, apiCredentials, template, callback) => {
     var authString = getAuthString(apiCredentials);
     var url = new URL(authURI, host);
     request({
-        'method':'POST', 
+        'method': 'POST', 
         'uri': url.toString(),
         'json': false,
         'headers': {
@@ -33,7 +33,7 @@ const addToBasket = (host, inputs, apiCredentials, template, callback) => {
             var addToBasketBody = getAddToBasketBody(inputs, apiCredentials, result.agent.session);
             var url = new URL(basketURI, host);
             request({
-                'method':'POST', 
+                'method': 'POST', 
                 'uri': url.toString(),
                 'json': false,
                 'headers': {
@@ -53,14 +53,14 @@ const addToBasket = (host, inputs, apiCredentials, template, callback) => {
             }).catch(function(err){
                 callback.render('error', {
                     title: pageTitle,
-                    messages: ['error in add to basket - try again'],
+                    messages: [err.message],
                 })
             });
         });
     }).catch(function (err) {
         callback.render('error', {
             title: pageTitle,
-            messages: ['error in auth - try again'],
+            messages: [err.message],
         })
     });
 }
@@ -70,7 +70,7 @@ const deleteBasket = (host, inputs, apiCredentials, template, callback) => {
     var authString = getAuthString(apiCredentials);
     var url = new URL(authURI, host);
     request({
-        'method':'POST', 
+        'method': 'POST', 
         'uri': url.toString(),
         'json': false,
         'headers': {
@@ -106,7 +106,7 @@ const deleteBasket = (host, inputs, apiCredentials, template, callback) => {
     }).catch(function (err) {
         callback.render('error', {
             title: pageTitle,
-            messages: ['error in auth - try again'],
+            messages: [err.message],
         })
     });
 }
@@ -116,7 +116,7 @@ const createBooking = (host, inputs, apiCredentials, template, callback) => {
     var authString = getAuthString(apiCredentials);
     var url = new URL(authURI, host);
     request({
-        'method':'POST', 
+        'method': 'POST', 
         'uri': url.toString(),
         'json': false,
         'headers': {
@@ -129,7 +129,7 @@ const createBooking = (host, inputs, apiCredentials, template, callback) => {
             var createBookingBody = getCreateBookingBody(inputs, apiCredentials, result.agent.session, staticCustomerData);
             var url = new URL(bookingURI, host);
             request({
-                'method':'POST', 
+                'method': 'POST', 
                 'uri': url.toString(),
                 'json': false,
                 'headers': {
@@ -152,7 +152,7 @@ const createBooking = (host, inputs, apiCredentials, template, callback) => {
     }).catch(function (err) {
         callback.render('error', {
             title: pageTitle,
-            messages: ['error in auth - try again'],
+            messages: [err.message],
         })
     });
 }
