@@ -29,10 +29,9 @@ const getAvailability = (host, inputs, template, callback) => {
             subtitle: 'Available dates for show:',
         });
     }).catch(function (err) {
-        console.log(err.message);
         callback.render('error', {
             title: 'Product page',
-            messages: ['Error fetching performance availability'],
+            messages: [err.message],
         })
     });
 }

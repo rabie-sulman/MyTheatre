@@ -18,18 +18,15 @@ const createBooking = (inputs, template, callback, checkoutService) => {
     deliveryMethod,
   }).then(data => {
     checkoutService.confirmBooking(reference, channelId, data.paymentId, agentDetails).then(result => {
-      console.log(result);
       callback.render(template, result);
     }).catch((err) => {
-      console.log(err.message);
       callback.render('error', {
-        messages: ['Error fetching performance availability'],
+        messages: [err.message],
       })
     });
   }).catch((err) => {
-    console.log(err.message);
     callback.render('error', {
-      messages: ['Error fetching performance availability'],
+      messages: [err.message],
     })
   });
 };

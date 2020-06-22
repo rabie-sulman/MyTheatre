@@ -16,10 +16,9 @@ const addToBasket = (inputs, template, callback, basketService) => {
   }).then(data => {
     callback.render(template, processData(data));
   }).catch((err) => {
-    console.log(err.message);
     callback.render('error', {
       title: pageTitle,
-      messages: ['Error fetching performance availability'],
+      messages: [err.message],
     })
   });
 }
@@ -33,10 +32,9 @@ const deleteItem = (inputs, template, callback, basketService) => {
   ).then(data => {
     callback.render(template, processData(data));
   }).catch((err) => {
-    console.log(err.message);
-    callback.render("error", {
+    callback.render('error', {
       title: pageTitle,
-      messages: ["Error fetching performance availability"],
+      messages: [err.message],
     })
   });
 }

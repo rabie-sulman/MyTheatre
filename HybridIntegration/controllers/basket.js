@@ -43,7 +43,6 @@ const addToBasket = (host, inputs, apiCredentials, template, callback) => {
                 body: addToBasketBody
             }).then(function (data){
                 parser.parseString(data, function (error, result){
-                    console.log(JSON.stringify(result));
                     callback.render(template, {
                         basketDetails: result,
                         customer: staticCustomerData,
@@ -52,10 +51,6 @@ const addToBasket = (host, inputs, apiCredentials, template, callback) => {
                     });
                 });
             }).catch(function(err){
-                console.log(err.message);
-                parser.parseString(err, function (error, result){
-                    console.log(result);
-                });
                 callback.render('error', {
                     title: pageTitle,
                     messages: ['error in add to basket - try again'],
@@ -63,7 +58,6 @@ const addToBasket = (host, inputs, apiCredentials, template, callback) => {
             });
         });
     }).catch(function (err) {
-        console.log(err.message);
         callback.render('error', {
             title: pageTitle,
             messages: ['error in auth - try again'],
@@ -98,13 +92,11 @@ const deleteBasket = (host, inputs, apiCredentials, template, callback) => {
                 },
                 body: deleteBasketBody
             }).then(function (data){
-                console.log('deleted');
                 callback.render(template, {
                     title: 'Basket page',
                     messages: ['booking: <' + inputs.reference + '> deleted'],
                 })
             }).catch(function(err){
-                console.log(err.message);
                 callback.render(template, {
                     title: 'Basket page',
                     messages: ['unable to delete booking: <' + inputs.reference + '>'],
@@ -112,7 +104,6 @@ const deleteBasket = (host, inputs, apiCredentials, template, callback) => {
             });
         });
     }).catch(function (err) {
-        console.log(err.message);
         callback.render('error', {
             title: pageTitle,
             messages: ['error in auth - try again'],
@@ -147,13 +138,11 @@ const createBooking = (host, inputs, apiCredentials, template, callback) => {
                 },
                 body: createBookingBody
             }).then(function (data){
-                console.log('booked!');
                 callback.render(template, {
                     title: pageTitle,
                     messages: ['booking: <' + inputs.reference + '> has been successful!'],
                 })
             }).catch(function(err){
-                console.log(err.message);
                 callback.render(template, {
                     title: pageTitle,
                     messages: ['unable to delete booking: <' + inputs.reference + '>'],
@@ -161,7 +150,6 @@ const createBooking = (host, inputs, apiCredentials, template, callback) => {
             });
         });
     }).catch(function (err) {
-        console.log(err.message);
         callback.render('error', {
             title: pageTitle,
             messages: ['error in auth - try again'],
