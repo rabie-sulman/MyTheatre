@@ -2,7 +2,9 @@ const express = require('express');
 const qs = require('qs');
 const path = require('path');
 const moment = require('moment');
-const basket = require('./controllers/basket');
+const { basketService, checkoutService } = require('tte-api-services/node');
+const basketController = require('./controllers/basket');
+const checkoutController = require('./controllers/checkout');
 
 const app = express();
 app.set('views', path.join(__dirname, 'views'));
@@ -15,6 +17,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 const port = process.env.PORT || '3000';
 var config = require('./config');
 app.set(config, config);
+
+const basket = basketService.create(config.settings.environment);
+const checkout = checkoutService.create(config.settings.environment);
 
 app.get('/', (req, res) => {
     res.render('index', { title: 'Home', subtitle: 'Start your journey, here!' });
@@ -96,41 +101,37 @@ app.get('/seating-plan', (req, res) => {
 });
 
 app.get('/addToBasket', (req, res) => {
-    var host = config.env.eapi.host;
-    var apiCredentials = config.env.eapi;
-    var venueId = config.inputs.venueId;
-    var date = req.query.date + 'T' + req.query.time;
-    var addToBasketInputs = {
-        productId: req.query.productId,
-        ticketQuantity: req.query.quantity,
-        seatKey: req.query.seatKey,
-        date: moment(date).format('YYYY-MM-DD'),
-        time: moment(date).format('HH:mm'),
-        startFrom: req.query.number,
-        venueId: venueId,
+    const { productId, quantity, date, aggregateReferences } = req.query;
+    const items = aggregateReferences.split(',').map(aggregateReference => ({ aggregateReference }));
+    const { channelId } = config.settings;
+    const { venueId } = config.inputs;
+    const addToBasketInputs = {
+      channelId,
+      productId,
+      quantity,
+      items,
+      date,
+      venueId,
     };
-    basket.addToBasket(host, addToBasketInputs, apiCredentials, 'basket', res);
-});
-
-app.get('/deleteBasket', (req, res) => {
-    var host = config.env.eapi.host;
-    var apiCredentials = config.env.eapi;
-    var deleteBasketInputs = {
-        reference: req.query.reference,
-        password: req.query.password,
-    };
-    basket.deleteBasket(host, deleteBasketInputs, apiCredentials, 'index', res);
-});
-
-app.get('/createBooking', (req, res) => {
-    var host = config.env.eapi.host;
-    var apiCredentials = config.env.eapi;
-    var createBooking = {
-        reference: req.query.reference,
-        password: req.query.password,
-    };
-    basket.createBooking(host, createBooking, apiCredentials, 'booking', res);
-});
+  
+    basketController.addToBasket(addToBasketInputs, 'basket', res, basket);
+  });
+  
+  app.get('/deleteItem', (req, res) => {
+    const { reference, itemId } = req.query;
+    const deleteBasketInputs = { reference, itemId };
+  
+    basketController.deleteItem(deleteBasketInputs, 'basket', res, basket);
+  });
+  
+  
+  app.get('/createBooking', (req, res) => {
+    const { reference } = req.query;
+    const { channelId } = config.settings;
+    const createBookingInputs = { channelId, reference };
+  
+    checkoutController.createBooking(createBookingInputs, 'booking', res, checkout);
+  });
 
 app.listen(port, () => {
     console.log(`Listening to requests on http://localhost:${port}`);

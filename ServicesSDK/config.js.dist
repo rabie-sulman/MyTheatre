@@ -1,25 +1,13 @@
-// staging environment
-const env = {
-    inventory: {
-        host: 'https://inventory-service.stagingtixuk.io/',
-        affiliateId: '',
-    },
-    eapi: {
-        host: 'https://eapi.staging.aws.encoretix.co.uk/api/v1/xtest',
-        affiliateId: '',
-        affiliatePassword: '',
-        agentId: '',
-        agentPassword: '',
-        env: 'test',
-    }
-};
-
-const inputs = {
+const settings = {
+    affiliateId: 'encoretickets',
+    channelId: 'overture-encoretickets',
+    environment: 'prod',
+  };
+  const inputs = {
     productId: 1587,
     venueId: 138,
-    ticketQuantity: 2,
-    periodAvailability: 7 //days
-}
-
-module.exports.env = env;
-module.exports.inputs = inputs;
+    quantity: 1,
+    periodAvailability: 7, //days
+  }
+  module.exports.settings = settings;
+  module.exports.inputs = inputs;

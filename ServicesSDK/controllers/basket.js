@@ -1,3 +1,5 @@
+const pageTitle = 'Basket page';
+
 const addToBasket = (inputs, template, callback, basketService) => {
   const { productId, venueId, quantity, date, items, channelId } = inputs;
   const reservations = [{

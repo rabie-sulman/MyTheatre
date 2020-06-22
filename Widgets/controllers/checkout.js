@@ -1,3 +1,5 @@
+const pageTitle = 'Booking page';
+
 const createBooking = (inputs, template, callback, checkoutService) => {
   const { channelId, reference } = inputs;
   const billingAddress = {
@@ -18,18 +20,17 @@ const createBooking = (inputs, template, callback, checkoutService) => {
     deliveryMethod,
   }).then(data => {
     checkoutService.confirmBooking(reference, channelId, data.paymentId, agentDetails).then(result => {
-      console.log(result);
-      callback.render(template, result);
+      callback.render(template, { ...result, title: pageTitle });
     }).catch((err) => {
-      console.log(err.message);
       callback.render('error', {
-        messages: ['Error fetching performance availability'],
+        title: pageTitle,
+        messages: [err.message],
       })
     });
   }).catch((err) => {
-    console.log(err.message);
     callback.render('error', {
-      messages: ['Error fetching performance availability'],
+      title: pageTitle,
+      messages: [err.message],
     })
   });
 };
