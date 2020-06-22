@@ -40,7 +40,7 @@ const basket = basketService.create(config.settings.environment);
  * Routes Definitions
  */
 app.get('/', (req, res) => {
-  res.render('index', {title: 'Home'});
+  res.render('index', {title: 'Home', subtitle: 'Start your journey, here!'});
 });
 
 app.get('/availability', (req, res) => {
@@ -50,8 +50,8 @@ app.get('/availability', (req, res) => {
     affiliateId,
     productId,
     quantity,
-    fromDate: '20201102', // today
-    toDate: '20201109', // a week from now
+    fromDate: moment().toString('YYYYMMDD'),             // today
+    toDate: moment().add(1, 'weeks').format('YYYYMMDD'), // a week from now
     environment,
   };
 

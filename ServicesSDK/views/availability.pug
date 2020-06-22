@@ -1,29 +1,22 @@
 extends layout
 
 block layout-content
-  div.View
-    h1.Banner MyTheatre
-    div.Message
-      div.Title
-        h3 Best theatre tickets site
-        h1 available dates for show:
-        table(cellspacing='2' border='1' cellpadding='5')
-          tr
-            th product ID
-            th quantity
-            th affiliate
-          tr
-            td #{inputs.productId}
-            td #{inputs.quantity}
-            td #{inputs.affiliateId}
-
-        table(cellspacing='2' border='1' cellpadding='5')
-          tr
-            th datetime
-          each item in listOfAvailableTime
-            tr
-              td
-                a(href=`/performance?date=${item.date}&time=${item.time}&productId=${inputs.productId}&quantity=${inputs.quantity}&affiliateId=${inputs.affiliateId}&datetime=${item.datetime}`) #{item.datetime}
-    div.NavButtons
-      a(href="/")
-          div.NavButton Home!
+  div.card
+    div.card-body
+      div
+        b product ID - 
+        =inputs.productId
+      div
+        b quantity   - 
+        =inputs.quantity
+      div
+        b affiliate  - 
+        =inputs.affiliateId
+  br
+  table.table
+    tr
+      th datetime
+    each item in listOfAvailableTime
+      tr
+        td
+          a(href=`/performance?date=${item.date}&time=${item.time}&productId=${inputs.productId}&quantity=${inputs.quantity}&affiliateId=${inputs.affiliateId}&datetime=${item.datetime}`) #{item.datetime}

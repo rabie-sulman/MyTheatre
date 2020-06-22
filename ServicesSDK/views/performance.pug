@@ -1,41 +1,36 @@
 extends layout
 
 block layout-content
-  div.View
-    h1.Banner MyTheatre
-    div.Message
-      div.Title
-        h3 Best theatre tickets site
-        h1 available dates for show:
-        table(cellspacing='2' border='1' cellpadding='5')
-          tr
-            th product ID
-            th quantity
-            th affiliate
-            th date
-            th time
-          tr
-            td #{inputs.productId}
-            td #{inputs.quantity}
-            td #{inputs.affiliateId}
-            td #{inputs.date}
-            td #{inputs.time}
+  div.card
+    div.card-body
+      div
+        b product ID - 
+        =inputs.productId
+      div
+        b quantity   - 
+        =inputs.quantity
+      div
+        b affiliate  - 
+        =inputs.affiliateId
+      div
+        b date  - 
+        =inputs.date
+      div
+        b time  - 
+        =inputs.time
 
-        table(cellspacing='2' border='1' cellpadding='5')
-          each availabilityItem in availabilityData
-            tr
-              th Area: #{availabilityItem.areaName}
-            tr
-              th Group Identifier
-              th Sale price
-              th Seats Identifiers
-            each group in availabilityItem.groupings
-              tr
-                td(style='width: 200px; padding: 10px;') #{group.groupIdentifier}
-                td(style='width: 100px') #{group.prices.salePrice[0].currency + ' ' + (group.prices.salePrice[0].value/100).toFixed(2)}
-                td
-                  each seat in group.seats
-                    a(href=`/addToBasket?productId=${inputs.productId}&quantity=${inputs.quantity}&date=${inputs.datetime}&aggregateReference=${seat.aggregareReference}` style='padding-right: 10px;') #{seat.seatIdentifier}
-    div.NavButtons
-      a(href="/")
-          div.NavButton Home!
+  table.table
+    each availabilityItem in availabilityData
+      tr
+        th Area: #{availabilityItem.areaName}
+      tr
+        th Group Identifier
+        th Sale price
+        th Seats Identifiers
+      each group in availabilityItem.groupings
+        tr
+          td(style='width: 200px; padding: 10px;') #{group.groupIdentifier}
+          td(style='width: 100px') #{group.prices.salePrice[0].currency + ' ' + (group.prices.salePrice[0].value/100).toFixed(2)}
+          td
+            each seat in group.seats
+              a(href=`/addToBasket?productId=${inputs.productId}&quantity=${inputs.quantity}&date=${inputs.datetime}&aggregateReference=${seat.aggregareReference}` style='padding-right: 10px;') #{seat.seatIdentifier}

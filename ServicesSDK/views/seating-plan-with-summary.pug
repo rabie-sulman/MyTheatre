@@ -1,8 +1,0 @@
-extends layout
-
-block layout-content
-  div.seat-plan-container
-    div(class="seat-plan-widget venue__c-seat-plan venue__c-seat-list" data-app="venue-app" data-view-name="seat-plan" data-channel-id=configuration.channelId data-api-path=configuration.actionUrl data-css-mode="full" data-without-seat-summary="true")
-    div(class="venue__c-root" data-app="seat-summary-app" data-api-path=configuration.actionUrl data-channel-id=configuration.channelId data-css-mode="full")
-    script(src=`${configuration.apiPath}/${configuration.widgetVersion}/js/venue-app.js`)
-    script(src=`${configuration.apiPath}/${configuration.widgetVersion}/js/venue-seat-summary-app.js`)
