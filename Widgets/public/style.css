@@ -1,0 +1,19 @@
+body {
+    margin: 10px;
+    font-family: WorkSans,sans-serif;
+    color: #212121;
+    background: #f1f5f7;
+}
+
+.quicksearch {
+    max-width: 400px;
+    margin: 10px 0;
+    padding: 20px;
+    background: white;
+    border: 1px solid #e0e0e0;
+}
+
+[data-app="seat-summary-app"] {
+    position: absolute;
+    bottom: 10px;
+}

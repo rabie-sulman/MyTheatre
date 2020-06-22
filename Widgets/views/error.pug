@@ -1,0 +1,9 @@
+extends layout
+
+block layout-content
+  -if(messages)
+    div(class="alert alert-danger" role="alert")
+      div#note #{messages}
+  div.NavButtons
+    a(href="/")
+        div.NavButton Back to home page

@@ -1,0 +1,30 @@
+block variables
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    link(rel="shortcut icon", href="/favicon.ico")
+    meta(name="viewport", content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    meta(name="theme-color", content="#000000")
+    title #{title} | MyTheatre
+    link(rel="stylesheet" href="/style.css")
+    link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous")
+  body
+    div#root.container
+      nav(class="navbar navbar-expand-sm navbar-dark bg-dark")
+        a(class="navbar-brand" href="/") 🎭 MyTheatre
+        button(class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation")
+          span(class="navbar-toggler-icon")
+        div(class="collapse navbar-collapse" id="navbarNav")
+          ul(class="navbar-nav")
+            li(class="nav-item")
+              a(class="nav-link" href="/") Home
+            li(class="nav-item")
+              a(class="nav-link" href="/availability") Availability
+      div.container
+        br
+        -if(subtitle)
+          h1 #{subtitle}
+        block layout-content
+    script(src="https://code.jquery.com/jquery.js")
+    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous")
