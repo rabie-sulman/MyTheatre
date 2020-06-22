@@ -2,4 +2,5 @@ extends layout
 
 block layout-content
   -if(messages)
-      div#note(style='font-weight:bold') #{messages}
+    div(class="alert alert-success" role="alert")
+      div#note #{messages}

@@ -35,60 +35,17 @@ app.get("/", (req, res) => {
 });
 
 app.get("/availability", (req, res) => {
-    var host = config.env.inventory.host;
+    var inventoryConfig = config.env.inventory;
+    var host = inventoryConfig.host;
     var inputs = config.inputs;
     var availInputs = {
         productId: inputs.productId,
         ticketQuantity: inputs.ticketQuantity,
-        fromDate: '20200924',               // today
-        toDate: '20200930', // a week from now
-        affiliateId: config.env.inventory.affiliateId
+        fromDate: moment().toString("YYYYMMDD"),             // today
+        toDate: moment().add(1, 'weeks').format("YYYYMMDD"), // a week from now
+        affiliateId: inventoryConfig.affiliateId,
     };
     sumaryAvail.getAvailability(host, availInputs, "availability", res);
-});
-
-app.get('/product-external', (req, res) => {
-    const inputs = config.inputs;
-    const inventorySettings = config.env.inventory;
-    const configuration = {
-        productId: inputs.productId,
-        venueId: inputs.venueId,
-        quantity: inputs.ticketQuantity,
-        fromDate: '20200924',
-        toDate: '20200930',
-        productType: inputs.productType,
-        affiliateId: inventorySettings.affiliateId,
-        apiPath: inventorySettings.host,
-        widgetVersion: inventorySettings.widgetVersion,
-    };
-
-    res.render('product-external', {
-        configuration,
-        title: 'Product page',
-        subtitle: 'Choose date:'
-    });
-});
-
-app.get('/product', (req, res) => {
-    const inputs = config.inputs;
-    const inventorySettings = config.env.inventory;
-    const configuration = {
-        productId: inputs.productId,
-        venueId: inputs.venueId,
-        quantity: inputs.ticketQuantity,
-        fromDate: '20200924',
-        toDate: '20200930',
-        productType: inputs.productType,
-        affiliateId: inventorySettings.affiliateId,
-        apiPath: inventorySettings.host,
-        widgetVersion: inventorySettings.widgetVersion,
-    };
-
-    res.render('product', {
-        configuration,
-        title: 'Product page',
-        subtitle: 'Choose date:'
-    });
 });
 
 app.get("/performance", (req, res) => {
@@ -103,37 +60,6 @@ app.get("/performance", (req, res) => {
     };
     
     performance.getPerformance(host, availInputs, "performance", res);
-});
-
-app.get('/seating-plan-with-summary', (req, res) => {
-    const venueSettings = config.env.venue;
-    const configuration = {
-        channelId: venueSettings.channelId,
-        apiPath: venueSettings.host,
-        widgetVersion: venueSettings.widgetVersion,
-        actionUrl: venueSettings.actionUrl,
-    };
-
-    res.render('seating-plan-with-summary', {
-        configuration,
-        title: 'Seat Plan page',
-        subtitle: 'Choose seats:',
-    });
-});
-
-app.get('/seating-plan-without-summary', (req, res) => {
-    const venueSettings = config.env.venue;
-    const configuration = {
-        channelId: venueSettings.channelId,
-        apiPath: venueSettings.host,
-        widgetVersion: venueSettings.widgetVersion,
-    };
-
-    res.render('seating-plan-without-summary', {
-        configuration,
-        title: 'Seat Plan page',
-        subtitle: 'Choose seats:',
-    });
 });
 
 app.get("/addToBasket", (req, res) => {
