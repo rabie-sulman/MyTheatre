@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
   res.render('index', { title: 'Home', subtitle: 'Start your journey, here!' });
 });
 
-app.get('/product-external', (req, res) => {
+app.get('/product-with-external-basket', (req, res) => {
   const inputs = config.inputs;
   const inventorySettings = config.settings.inventory;
   const configuration = {
@@ -52,7 +52,7 @@ app.get('/product-external', (req, res) => {
     widgetVersion: inventorySettings.widgetVersion,
   };
 
-  res.render('product-external', {
+  res.render('product-with-external-basket', {
     configuration,
     title: 'Product page',
     subtitle: 'Choose date:'
@@ -81,7 +81,7 @@ app.get('/product', (req, res) => {
   });
 });
 
-app.get('/seating-plan-external', (req, res) => {
+app.get('/seating-plan-with-external-basket', (req, res) => {
   const venueSettings = config.settings.venue;
   const configuration = {
     channelId: config.settings.channelId,
@@ -90,7 +90,7 @@ app.get('/seating-plan-external', (req, res) => {
     actionUrl: venueSettings.redirectUrl,
   };
 
-  res.render('seating-plan-external', {
+  res.render('seating-plan-with-external-basket', {
     configuration,
     title: 'Seat Plan page',
     subtitle: 'Choose seats:',
