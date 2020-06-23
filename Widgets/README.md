@@ -10,26 +10,26 @@ For the purpose of this demo, the mock site uses static data for environment and
 
 ```javascript
 const settings = {
-    affiliateId: '',
-    channelId: '',
-    environment: 'prod',
-    inventory: {
-      host: 'https://inventory-service.tixuk.io',
-      widgetVersion: 'vLatest',
-    },
-    venue: {
-      host: 'https://venue-service.tixuk.io',
-      widgetVersion: 'vLatest',
-      redirectUrl: 'https://encoretickets.co.uk',
-    },
-  };
-  const inputs = {
-    productId: 1587,
-    venueId: 138,
-    quantity: 1,
-  }
-  module.exports.settings = settings;
-  module.exports.inputs = inputs;
+  affiliateId: '',
+  channelId: '',
+  environment: 'prod',
+  inventory: {
+    host: 'https://inventory-service.tixuk.io',
+    widgetVersion: 'vLatest',
+  },
+  venue: {
+    host: 'https://venue-service.tixuk.io',
+    widgetVersion: 'vLatest',
+    redirectUrl: 'https://encoretickets.co.uk',
+  },
+};
+const inputs = {
+  productId: 1587,
+  venueId: 138,
+  quantity: 1,
+}
+module.exports.settings = settings;
+module.exports.inputs = inputs;
 ```
 The values left as empty `''` are the API credentials which Encore will provide. The API hosts are environment-specific.
 

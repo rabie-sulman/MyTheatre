@@ -14,5 +14,6 @@ block layout-content
         const aggregateReferences = seats
           .map(seat => seat.aggregateReference);
         const datetime = performanceParams.performanceDate + 'T' + performanceParams.performanceTime + ':00+00:00';
+
         window.location.href = `/addToBasket?productId=${performanceParams.productId}&quantity=${performanceParams.quantity}&date=${datetime}&aggregateReferences=${aggregateReferences}`;
       });

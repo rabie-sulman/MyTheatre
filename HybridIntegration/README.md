@@ -11,24 +11,24 @@ For the purpose of this demo, the mock site uses static data for environment and
 ```javascript
 // staging environment
 const env = {
-    inventory: {
-        host: 'https://inventory-service.stagingtixuk.io/',
-        affiliateId: '',
-    },
-    eapi: {
-        host: 'https://eapi.staging.aws.encoretix.co.uk/api/v1/xtest',
-        affiliateId: '',
-        affiliatePassword: '',
-        agentId: '',
-        agentPassword: '',
-        env: 'test',
-    }
+  inventory: {
+    host: 'https://inventory-service.stagingtixuk.io/',
+    affiliateId: '',
+  },
+  eapi: {
+    host: 'https://eapi.staging.aws.encoretix.co.uk/api/v1/xtest',
+    affiliateId: '',
+    affiliatePassword: '',
+    agentId: '',
+    agentPassword: '',
+    env: 'test',
+  }
 };
 
 const inputs = {
-    productId: 1587,
-    venueId: 138,
-    ticketQuantity: 2,
+  productId: 1587,
+  venueId: 138,
+  ticketQuantity: 2,
 }
 
 module.exports.env = env;
