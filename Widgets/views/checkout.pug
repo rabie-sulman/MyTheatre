@@ -1,0 +1,9 @@
+extends layout
+
+block layout-content
+  -if(configuration.failed)
+    div(class="alert alert-danger" role="alert")
+      div#note Payment has failed. Please, try again.
+  div.checkout
+    div#checkout-container(data-app="checkout-app" data-channel-id=configuration.channelId data-external-id=configuration.basketReference data-shopper=configuration.shopper data-billing-address=configuration.billingAddress data-callback-urls=configuration.callbackUrls data-redirect-3ds-url=configuration.redirectUrl data-with-flexitickets="false" data-delivery-method="C" data-with-cardholder-name="false")
+  script(src=`${configuration.apiPath}/${configuration.widgetVersion}/js/checkout-app.js`)

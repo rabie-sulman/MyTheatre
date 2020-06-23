@@ -144,6 +144,48 @@ app.get('/createBooking', (req, res) => {
   checkoutController.createBooking(createBookingInputs, 'booking', res, checkout);
 });
 
+app.get('/checkout', (req, res) => {
+  const { reference, failed } = req.query;
+  const checkoutSettings = config.settings.checkout;
+  const configuration = {
+    channelId: config.settings.channelId,
+    basketReference: reference,
+    shopper: {
+      email: 'test@test.com',
+      title: 'Mrs',
+      firstName: 'test',
+      lastName: 'test',
+      telephoneNumber: '12345678',
+    },
+    billingAddress: {
+      line1: 'test',
+      postalCode: 'EC4A 1EN',
+      city: 'test',
+      countryCode: 'UK',
+    },
+    callbackUrls: {
+      success: 'http://localhost:3000/success',
+      fail: `http://localhost:3000/checkout?failed=true&reference=${reference}`
+    },
+    redirectUrl: checkoutSettings.redirectUrl,
+    apiPath: checkoutSettings.host,
+    widgetVersion: checkoutSettings.widgetVersion,
+    failed,
+  };
+
+  res.render('checkout', {
+    configuration,
+    title: 'Checkout Page',
+  });
+});
+
+app.get('/success', (req, res) => {
+  res.render('booking', {
+    messages: ['Booking was successfully confirmed'],
+    title: 'Confirmation Page',
+  });
+});
+
 /**
  * Server Activation
  */

@@ -10,7 +10,9 @@ block layout-content
       td #{reference}
       td #{checksum}
       td
-        a(href=`/createBooking?reference=${reference}`) confirm
+        a(href=`/createBooking?reference=${reference}`) confirm on account
+        br
+        a(href=`/checkout?reference=${reference}`) confirm not on account
   br
   table.table
     tr

@@ -22,6 +22,10 @@ const settings = {
     widgetVersion: 'vLatest',
     redirectUrl: 'https://encoretickets.co.uk',
   },
+  checkout: {
+    host: 'https://checkout-service.tixuk.io',
+    widgetVersion: 'vLatest',
+  },
 };
 const inputs = {
   productId: 1587,
