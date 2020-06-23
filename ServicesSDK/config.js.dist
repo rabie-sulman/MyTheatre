@@ -1,12 +1,31 @@
 const settings = {
-    affiliateId: 'encoretickets',
-    channelId: 'overture-encoretickets',
-    environment: 'prod',
-  };
-  const inputs = {
-    productId: 1587,
-    venueId: 138,
-    quantity: 1,
-  }
-  module.exports.settings = settings;
-  module.exports.inputs = inputs;
+  affiliateId: '',
+  channelId: '',
+  environment: 'staging',
+};
+
+const inputs = {
+  productId: 1587,
+  venueId: 138,
+  quantity: 2,
+}
+
+const bookingSettings = {
+  billingAddress: {
+    countryCode: 'UK',
+  },
+  shopper: {
+    firstName: 'First Name',
+    lastName: 'Last Name',
+  },
+  redirectUrl: 'https://example.com',
+  deliveryMethod: 'C',
+  agentDetails: {
+    agentId: '',
+    agentPassword: '',
+  },
+}
+
+module.exports.settings = settings;
+module.exports.inputs = inputs;
+module.exports.bookingSettings = bookingSettings;
