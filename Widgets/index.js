@@ -139,7 +139,8 @@ app.get('/deleteItem', (req, res) => {
 app.get('/createBooking', (req, res) => {
   const { reference } = req.query;
   const { channelId } = config.settings;
-  const createBookingInputs = { channelId, reference };
+  const { bookingSettings } = config;
+  const createBookingInputs = { channelId, reference, bookingSettings };
 
   checkoutController.createBooking(createBookingInputs, 'booking', res, checkout);
 });

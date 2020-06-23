@@ -8,7 +8,7 @@ const inputs = {
   productId: 1587,
   venueId: 138,
   quantity: 2,
-}
+};
 
 const bookingSettings = {
   billingAddress: {
@@ -24,7 +24,7 @@ const bookingSettings = {
     agentId: '',
     agentPassword: '',
   },
-}
+};
 
 module.exports.settings = settings;
 module.exports.inputs = inputs;

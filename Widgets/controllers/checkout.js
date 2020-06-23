@@ -1,43 +1,32 @@
-const pageTitle = 'Booking page';
-
 const createBooking = (inputs, template, callback, checkoutService) => {
-  const { channelId, reference } = inputs;
-  const billingAddress = {
-    countryCode: 'UK',
-  };
-  const shopper = {
-    firstName: 'First Name',
-    lastName: 'Last Name',
-  };
-  const deliveryMethod = 'C';
+  const { channelId, reference, bookingSettings } = inputs;
+  const { billingAddress, redirectUrl, shopper, deliveryMethod, agentDetails} = bookingSettings;
 
   checkoutService.createOrder({
     channelId,
     reference,
     billingAddress,
-    redirectUrl: 'https://example.com',
+    redirectUrl,
     shopper,
     deliveryMethod,
   }).then(data => {
-    checkoutService.confirmBooking(reference, channelId, data.paymentId, agentDetails).then(result => {
-      callback.render(template, { ...result, title: pageTitle });
+    checkoutService.confirmBooking(
+      reference,
+      channelId,
+      data.paymentId,
+      agentDetails
+    ).then(({ result }) => {
+      callback.render(template, { result, reference });
     }).catch((err) => {
       callback.render('error', {
-        title: pageTitle,
         messages: [err.message],
       })
     });
   }).catch((err) => {
     callback.render('error', {
-      title: pageTitle,
       messages: [err.message],
     })
   });
 };
-
-const agentDetails = {
-  agentId: 'ENC',
-  agentPassword: 'encore',
-}
 
 module.exports.createBooking = createBooking;
