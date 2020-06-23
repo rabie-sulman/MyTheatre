@@ -7,7 +7,6 @@ const settings = {
     productId: 1587,
     venueId: 138,
     quantity: 1,
-    periodAvailability: 7, //days
   }
   module.exports.settings = settings;
   module.exports.inputs = inputs;

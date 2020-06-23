@@ -27,7 +27,6 @@ const settings = {
     productId: 1587,
     venueId: 138,
     quantity: 1,
-    periodAvailability: 7, //days
   }
   module.exports.settings = settings;
   module.exports.inputs = inputs;
@@ -37,8 +36,7 @@ The values left as empty `''` are the API credentials which Encore will provide.
 #### The inputs are:
 - `productId`: is the Encore ID for "Wicked"
 - `venueId`: is the Encore ID for "Apollo Victoria Theatre"
-- `ticketQuantity`: is the wanted number of tickets (this will affect the availability calls - so they need to be dynamic)
-- `periodAvailability`: for this demo, I am using a dynamic dates range from the day the demo is run and for a period or days equal to this variable. In this demo, it is set for a week from today. 
+- `quantity`: is the wanted number of tickets (this will affect the availability calls - so they need to be dynamic)
 
 For creating booking, the API will require customer details, for the purpose of the example, a static json object in `customerData.json` which will be used rather than using a form to capture the data. 
 

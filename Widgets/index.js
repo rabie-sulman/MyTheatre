@@ -16,7 +16,7 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.set('query parser', function (str) {
-    return qs.parse(str, { decoder: function (s) { return decodeURIComponent(s); } });
+  return qs.parse(str, { decoder: function (s) { return decodeURIComponent(s); } });
 });
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -34,120 +34,119 @@ const checkout = checkoutService.create(config.settings.environment);
  * Routes Definitions
  */
 app.get('/', (req, res) => {
-    res.render('index', { title: 'Home', subtitle: 'Start your journey, here!' });
+  res.render('index', { title: 'Home', subtitle: 'Start your journey, here!' });
 });
 
 app.get('/product-external', (req, res) => {
-    const inputs = config.inputs;
-    const inventorySettings = config.settings.inventory;
-    const configuration = {
-        productId: inputs.productId,
-        venueId: inputs.venueId,
-        quantity: inputs.quantity,
-        fromDate: moment().toString('YYYYMMDD'),             // today
-        toDate: moment().add(1, 'weeks').format('YYYYMMDD'), // a week from now
-        productType: inputs.productType,
-        affiliateId: config.settings.affiliateId,
-        apiPath: inventorySettings.host,
-        widgetVersion: inventorySettings.widgetVersion,
-    };
+  const inputs = config.inputs;
+  const inventorySettings = config.settings.inventory;
+  const configuration = {
+    productId: inputs.productId,
+    venueId: inputs.venueId,
+    quantity: inputs.quantity,
+    fromDate: moment().toString('YYYYMMDD'),             // today
+    toDate: moment().add(1, 'weeks').format('YYYYMMDD'), // a week from now
+    productType: inputs.productType,
+    affiliateId: config.settings.affiliateId,
+    apiPath: inventorySettings.host,
+    widgetVersion: inventorySettings.widgetVersion,
+  };
 
-    res.render('product-external', {
-        configuration,
-        title: 'Product page',
-        subtitle: 'Choose date:'
-    });
+  res.render('product-external', {
+    configuration,
+    title: 'Product page',
+    subtitle: 'Choose date:'
+  });
 });
 
 app.get('/product', (req, res) => {
-    const inputs = config.inputs;
-    const inventorySettings = config.settings.inventory;
-    const configuration = {
-        productId: inputs.productId,
-        venueId: inputs.venueId,
-        quantity: inputs.quantity,
-        fromDate: moment().toString('YYYYMMDD'),             // today
-        toDate: moment().add(1, 'weeks').format('YYYYMMDD'), // a week from now
-        productType: inputs.productType,
-        affiliateId: config.settings.affiliateId,
-        apiPath: inventorySettings.host,
-        widgetVersion: inventorySettings.widgetVersion,
-    };
+  const inputs = config.inputs;
+  const inventorySettings = config.settings.inventory;
+  const configuration = {
+    productId: inputs.productId,
+    venueId: inputs.venueId,
+    quantity: inputs.quantity,
+    fromDate: moment().toString('YYYYMMDD'),             // today
+    toDate: moment().add(1, 'weeks').format('YYYYMMDD'), // a week from now
+    productType: inputs.productType,
+    affiliateId: config.settings.affiliateId,
+    apiPath: inventorySettings.host,
+    widgetVersion: inventorySettings.widgetVersion,
+  };
 
-    res.render('product', {
-        configuration,
-        title: 'Product page',
-        subtitle: 'Choose date:'
-    });
+  res.render('product', {
+    configuration,
+    title: 'Product page',
+    subtitle: 'Choose date:'
+  });
 });
 
 app.get('/seating-plan-external', (req, res) => {
-    const venueSettings = config.settings.venue;
-    const configuration = {
-        channelId: config.settings.channelId,
-        apiPath: venueSettings.host,
-        widgetVersion: venueSettings.widgetVersion,
-        actionUrl: venueSettings.redirectUrl,
-    };
+  const venueSettings = config.settings.venue;
+  const configuration = {
+    channelId: config.settings.channelId,
+    apiPath: venueSettings.host,
+    widgetVersion: venueSettings.widgetVersion,
+    actionUrl: venueSettings.redirectUrl,
+  };
 
-    res.render('seating-plan-external', {
-        configuration,
-        title: 'Seat Plan page',
-        subtitle: 'Choose seats:',
-    });
+  res.render('seating-plan-external', {
+    configuration,
+    title: 'Seat Plan page',
+    subtitle: 'Choose seats:',
+  });
 });
 
 app.get('/seating-plan', (req, res) => {
-    const venueSettings = config.settings.venue;
-    const configuration = {
-        channelId: config.settings.channelId,
-        apiPath: venueSettings.host,
-        widgetVersion: venueSettings.widgetVersion,
-    };
+  const venueSettings = config.settings.venue;
+  const configuration = {
+    channelId: config.settings.channelId,
+    apiPath: venueSettings.host,
+    widgetVersion: venueSettings.widgetVersion,
+  };
 
-    res.render('seating-plan', {
-        configuration,
-        title: 'Seat Plan page',
-        subtitle: 'Choose seats:',
-    });
+  res.render('seating-plan', {
+    configuration,
+    title: 'Seat Plan page',
+    subtitle: 'Choose seats:',
+  });
 });
 
 app.get('/addToBasket', (req, res) => {
-    const { productId, quantity, date, aggregateReferences } = req.query;
-    const items = aggregateReferences.split(',').map(aggregateReference => ({ aggregateReference }));
-    const { channelId } = config.settings;
-    const { venueId } = config.inputs;
-    const addToBasketInputs = {
-        channelId,
-        productId,
-        quantity,
-        items,
-        date,
-        venueId,
-    };
+  const { productId, quantity, date, aggregateReferences } = req.query;
+  const items = aggregateReferences.split(',').map(aggregateReference => ({ aggregateReference }));
+  const { channelId } = config.settings;
+  const { venueId } = config.inputs;
+  const addToBasketInputs = {
+    channelId,
+    productId,
+    quantity,
+    items,
+    date,
+    venueId,
+  };
 
-    basketController.addToBasket(addToBasketInputs, 'basket', res, basket);
+  basketController.addToBasket(addToBasketInputs, 'basket', res, basket);
 });
 
 app.get('/deleteItem', (req, res) => {
-    const { reference, itemId } = req.query;
-    const deleteBasketInputs = { reference, itemId };
+  const { reference, itemId } = req.query;
+  const deleteBasketInputs = { reference, itemId };
 
-    basketController.deleteItem(deleteBasketInputs, 'basket', res, basket);
+  basketController.deleteItem(deleteBasketInputs, 'basket', res, basket);
 });
 
-
 app.get('/createBooking', (req, res) => {
-    const { reference } = req.query;
-    const { channelId } = config.settings;
-    const createBookingInputs = { channelId, reference };
+  const { reference } = req.query;
+  const { channelId } = config.settings;
+  const createBookingInputs = { channelId, reference };
 
-    checkoutController.createBooking(createBookingInputs, 'booking', res, checkout);
+  checkoutController.createBooking(createBookingInputs, 'booking', res, checkout);
 });
 
 /**
  * Server Activation
  */
 app.listen(port, () => {
-    console.log(`Listening to requests on http://localhost:${port}`);
+  console.log(`Listening to requests on http://localhost:${port}`);
 });
