@@ -14,7 +14,7 @@ The static config will run for the show "Wicked" and allow a user:
   - ***with confirming on account***
     - create booking, this will create new Order, get new paymentId and confirm booking -[Checkout Services - createOrder(), confirmBooking()](https://www.npmjs.com/package/tte-api-services#checkout-service)  
   - ***with making payment for booking***
-    - this option takes a user to a checkout page, where he will be presented with the Checkout widget and can enter test card details (see the description below), and submit payment.
+    - this option takes a user to a checkout page, where he will be presented with the Checkout widget and can enter card details, and submit payment.
 
 **For external basket:**
 - see a created basket with selected seats by the link that was provided in the config `settings.venue.redirectUrl`
@@ -76,11 +76,6 @@ The values left as empty `''` are the API credentials which Encore will provide.
 - `quantity`: is the wanted number of tickets (this will affect the availability calls - so they need to be dynamic)
 
 For creating booking, the API will require customer details in a static object `bookingSettings`.
-
-#### Testing card details are:
-Card number - *5555 4444 3333 1111*  
-Expiry date - *10/20*  
-Security number - *737*  
 
 ### Technical details
 #### environment info

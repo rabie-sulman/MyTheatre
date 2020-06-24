@@ -15,6 +15,7 @@ const settings = {
     host: 'https://checkout-service.stagingtixuk.io',
     widgetVersion: 'staging',
     redirectUrl: 'https://example.com',
+    callbackHost: 'https://example.com',
   },
 };
 

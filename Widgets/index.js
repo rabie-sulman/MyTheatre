@@ -148,7 +148,7 @@ app.get('/createBooking', (req, res) => {
 app.get('/checkout', (req, res) => {
   const { reference: basketReference, failed } = req.query;
   const { channelId, checkout } = config.settings;
-  const { redirectUrl, host: apiPath, widgetVersion } = checkout;
+  const { redirectUrl, host: apiPath, widgetVersion, callbackHost } = checkout;
   const { shopper, billingAddress } = config.bookingSettings;
   const configuration = {
     channelId,
@@ -160,8 +160,8 @@ app.get('/checkout', (req, res) => {
     widgetVersion,
     failed,
     callbackUrls: {
-      success: `http://localhost:3000/success?reference=${basketReference}`,
-      fail: `http://localhost:3000/checkout?failed=true&reference=${basketReference}`
+      success: `${callbackHost}/success?reference=${basketReference}`,
+      fail: `${callbackHost}/checkout?failed=true&reference=${basketReference}`
     },
   };
 
@@ -172,7 +172,6 @@ app.get('/checkout', (req, res) => {
 });
 
 app.get('/success', (req, res) => {
-  console.log();
   res.render('booking', {
     result: 'success',
     messages: [`Booking ${req.query.reference} was successfully confirmed`],
