@@ -1,28 +1,18 @@
-# MyTheatre
-This is a mock website which integrates with Encore's APIs and runs a user journey from stock availability until creating a booking. The static config will run for the show "Wicked" as follows:
-- get a week's availability from today for the requested quantity - [inventory API - summary availability](https://developer.encore.co.uk/inventory-service/api-reference#/default/get_api_v3_availability_products__productId__quantity__quantity__from__fromDate__to__toDate_)
-- get performance seats' availability for the wanted quantity - [inventory API - seats availability](https://developer.encore.co.uk/inventory-service/api-reference#/default/get_api_v3_availability_products__productId__quantity__quantity__seats)
-- create and add seats to basket after agent authentication - [EAPI - create/add to basket ](https://developer.encore.co.uk/entertain-api/booking-api-basket-and-booking#add-to-basket)
-- delete reservation from basket. For the purpose of this demo, it is a static call to delete the only added reservation - [EAPI - delete from basket](https://developer.encore.co.uk/entertain-api/booking-api-basket-and-booking#delete-from-basket)
-- create booking. This will confirm reservation with the venue, capture customer details and add booking to the agent account to be invoiced. [EAPI - create booking](https://developer.encore.co.uk/entertain-api/booking-api-basket-and-booking#create-booking)
+# MyTheatre app with Services SDK
+This is a mock website which integrates with TTE API Services SDK and runs a user journey from stock availability until creating a booking. The static config will run for the show "Wicked" as follows:
+- get a week's availability from today for the requested quantity - [Inventory Services - getSummaryAvailability()](https://www.npmjs.com/package/tte-api-services#inventory-service)  
+- get performance seats availability for the wanted quantity - [Inventory Services - getPerformanceAvailability()](https://www.npmjs.com/package/tte-api-services#inventory-service)  
+- create basket - [Basket Services - createBasket()](https://www.npmjs.com/package/tte-api-services#basket-service)
+- remove item from the basket - [Basket Services - removeItem()](https://www.npmjs.com/package/tte-api-services#basket-service)
+- create booking, this will create new Order, get new paymentId and confirm booking -[Checkout Services - createOrder(), confirmBooking()](https://www.npmjs.com/package/tte-api-services#checkout-service) 
 
 For the purpose of this demo, the mock site uses static data for environment and data inputs in `config.js` as follows:
 
 ```javascript
-// staging environment
-const env = {
-  inventory: {
-    host: 'https://inventory-service.stagingtixuk.io/',
-    affiliateId: '',
-  },
-  eapi: {
-    host: 'https://eapi.staging.aws.encoretix.co.uk/api/v1/xtest',
-    affiliateId: '',
-    affiliatePassword: '',
-    agentId: '',
-    agentPassword: '',
-    env: 'test',
-  }
+const settings = {
+  affiliateId: '',
+  channelId: '',
+  environment: 'staging',
 };
 
 const inputs = {
@@ -31,8 +21,25 @@ const inputs = {
   quantity: 2,
 }
 
-module.exports.env = env;
+const bookingSettings = {
+  billingAddress: {
+    countryCode: 'UK',
+  },
+  shopper: {
+    firstName: 'First Name',
+    lastName: 'Last Name',
+  },
+  redirectUrl: 'https://example.com',
+  deliveryMethod: 'C',
+  agentDetails: {
+    agentId: '',
+    agentPassword: '',
+  },
+}
+
+module.exports.settings = settings;
 module.exports.inputs = inputs;
+module.exports.bookingSettings = bookingSettings;
 ```
 The values left as empty `''` are the API credentials which Encore will provide. The API hosts are environment-specific.
 
@@ -41,9 +48,8 @@ The values left as empty `''` are the API credentials which Encore will provide.
 - `venueId`: is the Encore ID for "Apollo Victoria Theatre"
 - `quantity`: is the wanted number of tickets (this will affect the availability calls - so they need to be dynamic)
 
-For creating booking, the API will require customer details, for the purpose of the example, a static json object in `customerData.json` which will be used rather than using a form to capture the data. 
+For creating booking, the API will require customer details in a static object `bookingSettings`.
 
-note: once deployed to prod, hosts and credentials will change and the `env` will have to change from `test` to `live`
 ### Technical details
 #### environment info
 This demo was developed and run with:
@@ -56,8 +62,8 @@ This application do not use environment variables but static `config.js` to make
 This application is built with `expressJS` (for routing) and `Pug`, formally known as `Jade` (template engine for view)
 #### How to run
 In order to run this demo, please do the following:
-- Ask Encore to provide API's credentials for both the capability APIs (inventory) and the Entertain API (basket and booking)
-- Copy `config.js.dist` to `config.js` and use the above credentials to fill in the empty credentials (see above description in code example)
+- To confirm a booking with an agent that is "on account" get additional authorization details `agentId` and `agentPassword` - [more info here](https://developer.encore.co.uk/checkout-agent-support)
+- Copy `config.js.dist` to `config.js` and use the above details to fill empty agentDetails fields in the `bookingSettings` object
 - From your terminal, navigate to the code folder and run:
 ```sh
 > npm i

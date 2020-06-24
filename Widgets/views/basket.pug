@@ -10,21 +10,22 @@ block layout-content
       td #{reference}
       td #{checksum}
       td
-        a(href=`/createBooking?reference=${reference}`) confirm on account
-        br
-        a(href=`/checkout?reference=${reference}`) confirm not on account
+        -if(items && items.length)
+          a(href=`/createBooking?reference=${reference}`) confirm on account
+          br
+          a(href=`/checkout?reference=${reference}`) confirm not on account
   br
-  table.table
-    tr
-      th product Id
-      th product Name
-      th venue Id
-      th date of performance
-      th sale price for ticket
-      th number of tickets
-      th total price
-      th action
-    if (items && items.length)
+  -if(items && items.length)
+    table.table
+      tr
+        th product Id
+        th product Name
+        th venue Id
+        th date of performance
+        th sale price for ticket
+        th number of tickets
+        th total price
+        th action
       each item in items
         tr
           td #{item.productId}
@@ -36,19 +37,9 @@ block layout-content
           td #{item.salePrice.currency} #{(item.totalPrice / 100).toFixed(2)}
           td
             a(href=`/deleteItem?reference=${reference}&itemId=${item.id}`) delete item
-    else
-      tr
-        td -
-        td -
-        td -
-        td -
-        td -
-        td -
-        td -
-        td -
-  h1 customer details:
-  p(style='white-space:pre;')
-    |assuming that after create basket,
-    |you take the payment and capture customer details
-    |then you proceed to creating the booking which will
-    |confirm the booking at Encore and at the venue
+  -else
+    div(class="alert alert-danger" role="alert")
+      div#note Your Basket is empty!
+    div.NavButtons
+      a(href="/")
+        div.NavButton Back to home page

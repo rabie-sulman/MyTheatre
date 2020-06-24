@@ -1,6 +1,10 @@
 extends layout
 
 block layout-content
-  -if(messages)
+  -if(result === 'success')
     div(class="alert alert-success" role="alert")
-      div#note #{messages}
+      h4(class="alert-heading") Well done!
+      p(class="mb-0") Booking #{reference} was successfully confirmed.
+    div.NavButtons
+        a(href="/")
+          div.NavButton Back to home page

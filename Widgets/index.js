@@ -44,7 +44,7 @@ app.get('/product-with-external-basket', (req, res) => {
     productId: inputs.productId,
     venueId: inputs.venueId,
     quantity: inputs.quantity,
-    fromDate: moment().toString('YYYYMMDD'),             // today
+    fromDate: moment().format('YYYYMMDD'),             // today
     toDate: moment().add(1, 'weeks').format('YYYYMMDD'), // a week from now
     productType: inputs.productType,
     affiliateId: config.settings.affiliateId,
@@ -66,7 +66,7 @@ app.get('/product', (req, res) => {
     productId: inputs.productId,
     venueId: inputs.venueId,
     quantity: inputs.quantity,
-    fromDate: moment().toString('YYYYMMDD'),             // today
+    fromDate: moment().format('YYYYMMDD'),             // today
     toDate: moment().add(1, 'weeks').format('YYYYMMDD'), // a week from now
     productType: inputs.productType,
     affiliateId: config.settings.affiliateId,
@@ -139,7 +139,8 @@ app.get('/deleteItem', (req, res) => {
 app.get('/createBooking', (req, res) => {
   const { reference } = req.query;
   const { channelId } = config.settings;
-  const createBookingInputs = { channelId, reference };
+  const { bookingSettings } = config;
+  const createBookingInputs = { channelId, reference, bookingSettings };
 
   checkoutController.createBooking(createBookingInputs, 'booking', res, checkout);
 });

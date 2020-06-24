@@ -41,7 +41,7 @@ app.get('/availability', (req, res) => {
   var availInputs = {
     productId: inputs.productId,
     ticketQuantity: inputs.ticketQuantity,
-    fromDate: moment().toString('YYYYMMDD'),             // today
+    fromDate: moment().format('YYYYMMDD'),             // today
     toDate: moment().add(1, 'weeks').format('YYYYMMDD'), // a week from now
     affiliateId: inventoryConfig.affiliateId,
   };
