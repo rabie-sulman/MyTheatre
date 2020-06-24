@@ -18,19 +18,19 @@ block layout-content
       div
         b time  - 
         =inputs.time
-
-        table.table
-          each availabilityItem in availabilityData
+      br
+      table.table
+        each availabilityItem in availabilityData
+          tr
+            th(colspan="3") Area: #{availabilityItem.areaName}
+          tr
+            th Group Identifier
+            th Sale price
+            th Seats Identifiers
+          each group in availabilityItem.groupings
             tr
-              th Area: #{availabilityItem.areaName}
-            tr
-              th Group Identifier
-              th Sale price
-              th Seats Identifiers
-            each group in availabilityItem.groupings
-              tr
-                td(style='width: 200px; padding: 10px;') #{group.groupIdentifier}
-                td(style='width: 100px') #{group.prices.salePrice[0].currency + ' ' + (group.prices.salePrice[0].value/100).toFixed(2)}
-                td
-                  each seatLump in group.seatLumps
-                    a(href=`/addToBasket?productId=${inputs.productId}&quantity=${inputs.quantity}&date=${inputs.datetime}&aggregateReferences=${seatLump.aggregateReferences}` style='display: inline-block; padding: 5px;') [#{seatLump.seatIdentifiers}]
+              td(style='width: 200px; padding: 10px;') #{group.groupIdentifier}
+              td(style='width: 100px') #{group.prices.salePrice[0].currency + ' ' + (group.prices.salePrice[0].value/100).toFixed(2)}
+              td
+                each seatLump in group.seatLumps
+                  a(href=`/addToBasket?productId=${inputs.productId}&quantity=${inputs.quantity}&date=${inputs.datetime}&aggregateReferences=${seatLump.aggregateReferences}` style='display: inline-block; padding: 5px;') [#{seatLump.seatIdentifiers.join(', ')}]

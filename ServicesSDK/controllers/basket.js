@@ -14,7 +14,7 @@ const addToBasket = (inputs, template, callback, basketService) => {
     channelId,
     reservations,
   }).then(data => {
-    callback.render(template, processData(data));
+    callback.render(template, { ...processData(data), title: pageTitle });
   }).catch((err) => {
     callback.render('error', {
       title: pageTitle,
@@ -30,7 +30,7 @@ const deleteItem = (inputs, template, callback, basketService) => {
     reference,
     parseInt(itemId),
   ).then(data => {
-    callback.render(template, processData(data));
+    callback.render(template, { ...processData(data), title: pageTitle });
   }).catch((err) => {
     callback.render('error', {
       title: pageTitle,
