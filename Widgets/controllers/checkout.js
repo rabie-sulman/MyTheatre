@@ -18,7 +18,9 @@ const createBooking = (inputs, template, callback, checkoutService) => {
       data.paymentId,
       agentDetails
     ).then(({ result }) => {
-      callback.render(template, { result, reference, title: pageTitle });
+      const message = `Booking ${reference} was successfully confirmed`;
+
+      callback.render(template, { result, message, title: pageTitle });
     }).catch((err) => {
       callback.render('error', {
         title: pageTitle,

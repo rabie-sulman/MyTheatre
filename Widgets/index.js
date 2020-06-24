@@ -146,32 +146,23 @@ app.get('/createBooking', (req, res) => {
 });
 
 app.get('/checkout', (req, res) => {
-  const { reference, failed } = req.query;
-  const checkoutSettings = config.settings.checkout;
+  const { reference: basketReference, failed } = req.query;
+  const { channelId, checkout } = config.settings;
+  const { redirectUrl, host: apiPath, widgetVersion } = checkout;
+  const { shopper, billingAddress } = config.bookingSettings;
   const configuration = {
-    channelId: config.settings.channelId,
-    basketReference: reference,
-    shopper: {
-      email: 'test@test.com',
-      title: 'Mrs',
-      firstName: 'test',
-      lastName: 'test',
-      telephoneNumber: '12345678',
-    },
-    billingAddress: {
-      line1: 'test',
-      postalCode: 'EC4A 1EN',
-      city: 'test',
-      countryCode: 'UK',
-    },
-    callbackUrls: {
-      success: 'http://localhost:3000/success',
-      fail: `http://localhost:3000/checkout?failed=true&reference=${reference}`
-    },
-    redirectUrl: checkoutSettings.redirectUrl,
-    apiPath: checkoutSettings.host,
-    widgetVersion: checkoutSettings.widgetVersion,
+    channelId,
+    basketReference,
+    shopper,
+    billingAddress,
+    redirectUrl,
+    apiPath,
+    widgetVersion,
     failed,
+    callbackUrls: {
+      success: `http://localhost:3000/success?reference=${basketReference}`,
+      fail: `http://localhost:3000/checkout?failed=true&reference=${basketReference}`
+    },
   };
 
   res.render('checkout', {
@@ -181,8 +172,10 @@ app.get('/checkout', (req, res) => {
 });
 
 app.get('/success', (req, res) => {
+  console.log();
   res.render('booking', {
-    messages: ['Booking was successfully confirmed'],
+    result: 'success',
+    messages: [`Booking ${req.query.reference} was successfully confirmed`],
     title: 'Confirmation Page',
   });
 });

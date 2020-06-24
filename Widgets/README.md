@@ -1,6 +1,8 @@
 # MyTheatre with widgets
 This is a mock website which integrates with Widgets and runs a user journey from stock availability until creating a booking in two ways:
-- using internal services  
+- using internal services:
+    - with confirming on account
+    - with making payment for booking
 - using external basket
   
 The static config will run for the show "Wicked" and allow a user:
@@ -8,8 +10,12 @@ The static config will run for the show "Wicked" and allow a user:
 - visualise seats in the venue and select desired seats for a performance with Seat Plan Widget - [Seat Plan Widget](https://developer.encore.co.uk/venue-service/widgets/seat-plan-widget/v4)  
 **For internal services:**
 - create basket - [Basket Services - createBasket()](https://www.npmjs.com/package/tte-api-services#basket-service)
-- remove item from the basket - [Basket Services - removeItem()](https://www.npmjs.com/package/tte-api-services#basket-service)
-- create booking, this will create new Order, get new paymentId and confirm booking -[Checkout Services - createOrder(), confirmBooking()](https://www.npmjs.com/package/tte-api-services#checkout-service)  
+- remove item from the basket - [Basket Services - removeItem()](https://www.npmjs.com/package/tte-api-services#basket-service)  
+  - ***with confirming on account***
+    - create booking, this will create new Order, get new paymentId and confirm booking -[Checkout Services - createOrder(), confirmBooking()](https://www.npmjs.com/package/tte-api-services#checkout-service)  
+  - ***with making payment for booking***
+    - this option takes a user to a checkout page, where he will be presented with the Checkout widget and can enter test card details (see the description below), and submit payment.
+
 **For external basket:**
 - see a created basket with selected seats by the link that was provided in the config `settings.venue.redirectUrl`
 
@@ -70,6 +76,11 @@ The values left as empty `''` are the API credentials which Encore will provide.
 - `quantity`: is the wanted number of tickets (this will affect the availability calls - so they need to be dynamic)
 
 For creating booking, the API will require customer details in a static object `bookingSettings`.
+
+#### Testing card details are:
+Card number - *5555 4444 3333 1111*  
+Expiry date - *10/20*  
+Security number - *737*  
 
 ### Technical details
 #### environment info

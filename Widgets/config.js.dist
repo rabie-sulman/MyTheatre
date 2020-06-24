@@ -4,16 +4,17 @@ const settings = {
   environment: 'staging',
   inventory: {
     host: 'https://inventory-service.stagingtixuk.io',
-    widgetVersion: 'vLatest',
+    widgetVersion: 'staging',
   },
   venue: {
     host: 'https://venue-service.stagingtixuk.io',
-    widgetVersion: 'vLatest',
+    widgetVersion: 'staging',
     redirectUrl: 'https://example.com',
   },
   checkout: {
-    host: 'https://checkout-service.tixuk.io',
-    widgetVersion: 'vLatest',
+    host: 'https://checkout-service.stagingtixuk.io',
+    widgetVersion: 'staging',
+    redirectUrl: 'https://example.com',
   },
 };
 
@@ -24,12 +25,18 @@ const inputs = {
 };
 
 const bookingSettings = {
-  billingAddress: {
-    countryCode: 'UK',
-  },
   shopper: {
-    firstName: 'First Name',
-    lastName: 'Last Name',
+    email: 'test@test.com',
+    title: 'Mrs',
+    firstName: 'test',
+    lastName: 'test',
+    telephoneNumber: '12345678',
+  },
+  billingAddress: {
+    line1: 'test',
+    postalCode: 'EC4A 1EN',
+    city: 'test',
+    countryCode: 'UK',
   },
   redirectUrl: 'https://example.com',
   deliveryMethod: 'C',
