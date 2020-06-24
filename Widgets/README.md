@@ -11,7 +11,7 @@ The static config will run for the show "Wicked" and allow a user:
 - remove item from the basket - [Basket Services - removeItem()](https://www.npmjs.com/package/tte-api-services#basket-service)
 - create booking, this will create new Order, get new paymentId and confirm booking -[Checkout Services - createOrder(), confirmBooking()](https://www.npmjs.com/package/tte-api-services#checkout-service)  
 **For external basket:**
-- see a created basket with selected seats on the https://www.encoretickets.co.uk/
+- see a created basket with selected seats by the link that was provided in the config `settings.venue.redirectUrl`
 
 For the purpose of this demo, the mock site uses static data for environment and data inputs in `config.js` as follows:
 
