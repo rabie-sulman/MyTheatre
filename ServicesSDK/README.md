@@ -62,8 +62,8 @@ This application do not use environment variables but static `config.js` to make
 This application is built with `expressJS` (for routing) and `Pug`, formally known as `Jade` (template engine for view)
 #### How to run
 In order to run this demo, please do the following:
-- Ask Encore to provide API's credentials for both the capability APIs (inventory) and the Entertain API (basket and booking)
-- Copy `config.js.dist` to `config.js` and use the above credentials to fill in the empty credentials (see above description in code example)
+- To confirm a booking with an agent that is "on account" get additional authorization details `agentId` and `agentPassword` - [more info here](https://developer.encore.co.uk/checkout-agent-support)
+- Copy `config.js.dist` to `config.js` and use the above details to fill empty agentDetails fields in the `bookingSettings` object
 - From your terminal, navigate to the code folder and run:
 ```sh
 > npm i

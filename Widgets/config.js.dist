@@ -1,22 +1,22 @@
 const settings = {
   affiliateId: '',
   channelId: '',
-  environment: 'prod',
+  environment: 'staging',
   inventory: {
-    host: 'https://inventory-service.tixuk.io',
+    host: 'https://inventory-service.stagingtixuk.io',
     widgetVersion: 'vLatest',
   },
   venue: {
-    host: 'https://venue-service.tixuk.io',
+    host: 'https://venue-service.stagingtixuk.io',
     widgetVersion: 'vLatest',
-    redirectUrl: 'https://encoretickets.co.uk',
+    redirectUrl: 'https://example.com',
   },
 };
 
 const inputs = {
   productId: 1587,
   venueId: 138,
-  quantity: 1,
+  quantity: 2,
 };
 
 const bookingSettings = {
