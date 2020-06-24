@@ -19,7 +19,6 @@ const inputs = {
   quantity: 1,
 };
 
-
 const bookingSettings = {
   billingAddress: {
     countryCode: 'UK',
@@ -39,6 +38,3 @@ const bookingSettings = {
 module.exports.settings = settings;
 module.exports.inputs = inputs;
 module.exports.bookingSettings = bookingSettings;
-
-module.exports.settings = settings;
-module.exports.inputs = inputs;

@@ -1,10 +1,10 @@
 # MyTheatre app with Services SDK
 This is a mock website which integrates with TTE API Services SDK and runs a user journey from stock availability until creating a booking. The static config will run for the show "Wicked" as follows:
 - get a week's availability from today for the requested quantity - [Inventory Services - getSummaryAvailability()](https://www.npmjs.com/package/tte-api-services#inventory-service)  
-- get performance seats' availability for the wanted quantity - [Inventory Services - getPerformanceAvailability()](https://www.npmjs.com/package/tte-api-services#inventory-service)  
-- add seats to the created basket - [Basket Services - createBasket()](https://www.npmjs.com/package/tte-api-services#basket-service)
+- get performance seats availability for the wanted quantity - [Inventory Services - getPerformanceAvailability()](https://www.npmjs.com/package/tte-api-services#inventory-service)  
+- create basket - [Basket Services - createBasket()](https://www.npmjs.com/package/tte-api-services#basket-service)
 - remove item from the basket - [Basket Services - removeItem()](https://www.npmjs.com/package/tte-api-services#basket-service)
-- create booking. This will create new Order, get new paymentId and confirm booking -[Checkout Services - createOrder(), confirmBooking()](https://www.npmjs.com/package/tte-api-services#checkout-service) 
+- create booking, this will create new Order, get new paymentId and confirm booking -[Checkout Services - createOrder(), confirmBooking()](https://www.npmjs.com/package/tte-api-services#checkout-service) 
 
 For the purpose of this demo, the mock site uses static data for environment and data inputs in `config.js` as follows:
 

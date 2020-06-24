@@ -12,24 +12,44 @@ For the purpose of this demo, the mock site uses static data for environment and
 const settings = {
   affiliateId: '',
   channelId: '',
-  environment: 'prod',
+  environment: 'staging',
   inventory: {
-    host: 'https://inventory-service.tixuk.io',
+    host: 'https://inventory-service.stagingtixuk.io',
     widgetVersion: 'vLatest',
   },
   venue: {
-    host: 'https://venue-service.tixuk.io',
+    host: 'https://venue-service.stagingtixuk.io',
     widgetVersion: 'vLatest',
     redirectUrl: 'https://encoretickets.co.uk',
   },
 };
+
 const inputs = {
   productId: 1587,
   venueId: 138,
-  quantity: 1,
-}
+  quantity: 2,
+};
+
+const bookingSettings = {
+  billingAddress: {
+    countryCode: 'UK',
+  },
+  shopper: {
+    firstName: 'First Name',
+    lastName: 'Last Name',
+  },
+  redirectUrl: 'https://example.com',
+  deliveryMethod: 'C',
+  agentDetails: {
+    agentId: '',
+    agentPassword: '',
+  },
+};
+
 module.exports.settings = settings;
 module.exports.inputs = inputs;
+module.exports.bookingSettings = bookingSettings;
+
 ```
 The values left as empty `''` are the API credentials which Encore will provide. The API hosts are environment-specific.
 
