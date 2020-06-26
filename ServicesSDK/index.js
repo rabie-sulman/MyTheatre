@@ -5,7 +5,12 @@ const express = require('express');
 const qs = require('qs');
 const path = require('path');
 const moment = require('moment');
-const { inventoryService, basketService, checkoutService } = require('tte-api-services/node');
+const {
+  inventoryService,
+  basketService,
+  checkoutService,
+  contentService,
+} = require('tte-api-services/node');
 const summaryAvailability = require('./controllers/summary-availability');
 const performanceController = require('./controllers/performance');
 const basketController = require('./controllers/basket');
@@ -15,6 +20,7 @@ const checkoutController = require('./controllers/checkout');
  * App Variables
  */
 const app = express();
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.set('query parser', str => (
@@ -23,6 +29,7 @@ app.set('query parser', str => (
   })
 ));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({extended: true}));
 
 /**
  *  App Configuration
@@ -37,6 +44,7 @@ app.set(config, config);
 const inventory = inventoryService.create(config.settings.environment);
 const basket = basketService.create(config.settings.environment);
 const checkout = checkoutService.create(config.settings.environment);
+const content = contentService.create(config.settings.environment);
 
 /**
  * Routes Definitions
@@ -52,8 +60,8 @@ app.get('/availability', (req, res) => {
     affiliateId,
     productId,
     quantity,
-    fromDate: moment().format('YYYYMMDD'), // today
-    toDate: moment().add(1, 'weeks').format('YYYYMMDD'), // a week from now
+    fromDate: '20201102', // today
+    toDate: '20201109', // a week from now
     environment,
   };
 
@@ -74,7 +82,6 @@ app.get('/performance', (req, res) => {
   performanceController.getPerformance(availabilityInputs, 'performance', res, inventory);
 });
 
-
 app.get('/addToBasket', (req, res) => {
   const { productId, quantity, date, aggregateReferences } = req.query;
   const items = aggregateReferences.split(',').map(aggregateReference => ({ aggregateReference }));
@@ -89,7 +96,17 @@ app.get('/addToBasket', (req, res) => {
     venueId,
   };
 
-  basketController.addToBasket(addToBasketInputs, 'basket', res, basket);
+  basketController.addToBasket(addToBasketInputs, 'basket', res, basket, content);
+});
+
+app.get('/addCustomerDetails', (req, res) => {
+  const { reference } = req.query;
+
+  res.render('customer-details', {
+    reference,
+    title: 'Customer details',
+    subtitle: 'Add customer details'
+  });
 });
 
 app.get('/deleteItem', (req, res) => {
@@ -99,11 +116,36 @@ app.get('/deleteItem', (req, res) => {
   basketController.deleteItem(deleteBasketInputs, 'basket', res, basket);
 });
 
+app.post('/createBooking', (req, res) => {
+  const {
+    firstName,
+    lastName,
+    email,
+    telephoneNumber,
+    line1,
+    city,
+    postalCode,
+    countryCode,
 
-app.get('/createBooking', (req, res) => {
+  } = req.body;
   const { reference } = req.query;
   const { channelId } = config.settings;
-  const { bookingSettings } = config;
+  const { bookingData } = config;
+  const bookingSettings = {
+    ...bookingData,
+    shopper: {
+      firstName,
+      lastName,
+      email,
+      telephoneNumber,
+    },
+    billingAddress: {
+      line1,
+      city,
+      postalCode,
+      countryCode,
+    }
+  }
   const createBookingInputs = { channelId, reference, bookingSettings };
 
   checkoutController.createBooking(createBookingInputs, 'booking', res, checkout);

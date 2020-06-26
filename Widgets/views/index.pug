@@ -1,12 +1,23 @@
 extends layout
 
 block layout-content
-  span.Details Let's try for "Wicked"
+  div.Details Let's try for "Wicked"
   -if(messages)
     div(class="alert alert-info" role="alert")
       div#note #{messages}
+  br
   div.NavButtons
     a(href="/product")
-      div.NavButton Book using internal services
+      div.NavButton Custom basket journey
     a(href="/product-with-external-basket")
-      div.NavButton Book using external basket
+      div.NavButton Default basket journey
+  br
+  div(class="alert alert-info" role="alert")
+    ol.mb-0
+      li
+        b Custom basket journey (partner-defined basket + JavaScript event capture selections)
+        div This example shows how a partner/integrator can define their own custom logic for defining a basket. Once a user clicks on the "Add to Basket" CTA, it will suppress the default redirection logic, used by Encore's Seat Plan widget. Instead, custom JavaScript events will be raised, which will include various data representing a user's selected seats, and which the integrator can use to handle their own custom basket journey.
+      br
+      li
+        b Default basket journey (normal flow, ET basket service)
+        div This example shows how a partner/integrator can rely on the standard/default functionality, provided by Encore's Seat Plan widget, to add some items to basket. Once a user clicks on the "Add to Basket" CTA, it will automatically use the Basket Service to add items to a basket and redirect to the specified URL.

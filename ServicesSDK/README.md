@@ -19,16 +19,9 @@ const inputs = {
   productId: 1587,
   venueId: 138,
   quantity: 2,
-}
+};
 
-const bookingSettings = {
-  billingAddress: {
-    countryCode: 'UK',
-  },
-  shopper: {
-    firstName: 'First Name',
-    lastName: 'Last Name',
-  },
+const bookingData = {
   redirectUrl: 'https://example.com',
   deliveryMethod: 'C',
   agentDetails: {
@@ -39,7 +32,7 @@ const bookingSettings = {
 
 module.exports.settings = settings;
 module.exports.inputs = inputs;
-module.exports.bookingSettings = bookingSettings;
+module.exports.bookingData = bookingData;
 ```
 The values left as empty `''` are the API credentials which Encore will provide. The API hosts are environment-specific.
 
@@ -48,7 +41,7 @@ The values left as empty `''` are the API credentials which Encore will provide.
 - `venueId`: is the Encore ID for "Apollo Victoria Theatre"
 - `quantity`: is the wanted number of tickets (this will affect the availability calls - so they need to be dynamic)
 
-For creating booking, the API will require customer details in a static object `bookingSettings`.
+For creating booking, the API will require agent details in a static object `bookingData`.
 
 ### Technical details
 #### environment info

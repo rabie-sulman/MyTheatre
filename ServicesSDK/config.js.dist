@@ -10,22 +10,15 @@ const inputs = {
   quantity: 2,
 };
 
-const bookingSettings = {
-  billingAddress: {
-    countryCode: 'UK',
-  },
-  shopper: {
-    firstName: 'First Name',
-    lastName: 'Last Name',
-  },
+const bookingData = {
   redirectUrl: 'https://example.com',
   deliveryMethod: 'C',
   agentDetails: {
     agentId: '',
     agentPassword: '',
   },
-};
+}
 
 module.exports.settings = settings;
 module.exports.inputs = inputs;
-module.exports.bookingSettings = bookingSettings;
+module.exports.bookingData = bookingData;

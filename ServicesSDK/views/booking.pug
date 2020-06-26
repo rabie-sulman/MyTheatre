@@ -5,6 +5,40 @@ block layout-content
     div(class="alert alert-success" role="alert")
       h4(class="alert-heading") Well done!
       p(class="mb-0") Booking #{reference} was successfully confirmed.
+    br
+    hr
+    br
+    div.row
+      div.col-md-6.mb-3
+        h4 Customer details
+        ul
+          li
+            b First name:&nbsp;
+            =shopper.firstName
+          li
+            b Last name:&nbsp;
+            =shopper.lastName
+          li
+            b Email:&nbsp;
+            =shopper.email
+          li
+            b Phone:&nbsp;
+            =shopper.telephoneNumber
+      div.col-md-6.mb-3
+        h4 Billing Address
+        ul
+          li
+            b Address:&nbsp;
+            =billingAddress.line1
+          li
+            b City:&nbsp;
+            =billingAddress.city
+          li
+            b Postal code:&nbsp;
+            =billingAddress.postalCode
+          li
+            b Country code:&nbsp;
+            =billingAddress.countryCode
     div.NavButtons
         a(href="/")
           div.NavButton Back to home page

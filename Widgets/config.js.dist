@@ -25,20 +25,7 @@ const inputs = {
   quantity: 2,
 };
 
-const bookingSettings = {
-  shopper: {
-    email: 'test@test.com',
-    title: 'Mrs',
-    firstName: 'test',
-    lastName: 'test',
-    telephoneNumber: '12345678',
-  },
-  billingAddress: {
-    line1: 'test',
-    postalCode: 'EC4A 1EN',
-    city: 'test',
-    countryCode: 'UK',
-  },
+const bookingData = {
   redirectUrl: 'https://example.com',
   deliveryMethod: 'C',
   agentDetails: {
@@ -49,4 +36,4 @@ const bookingSettings = {
 
 module.exports.settings = settings;
 module.exports.inputs = inputs;
-module.exports.bookingSettings = bookingSettings;
+module.exports.bookingData = bookingData;

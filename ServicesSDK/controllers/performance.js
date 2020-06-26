@@ -10,7 +10,12 @@ const getPerformance = (inputs, template, callback, inventoryService) => {
   ).then((data) => {
     const availabilityData = processData(data);
 
-    callback.render(template, { inputs, availabilityData, title: 'Product page', subtitle: 'Available dates for show:' });
+    callback.render(template, {
+      inputs,
+      availabilityData,
+      title: 'Performance availability',
+      subtitle: 'Available seats for performance:'
+    });
   }).catch((err) => {
     callback.render('error', {
       title: 'Product page',

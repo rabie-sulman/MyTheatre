@@ -5,7 +5,8 @@ const express = require('express');
 const qs = require('qs');
 const path = require('path');
 const moment = require('moment');
-const { basketService, checkoutService } = require('tte-api-services/node');
+const LocalStorage = require('node-localstorage').LocalStorage;
+const { basketService, checkoutService, contentService } = require('tte-api-services/node');
 const basketController = require('./controllers/basket');
 const checkoutController = require('./controllers/checkout');
 
@@ -19,16 +20,20 @@ app.set('query parser', function (str) {
   return qs.parse(str, { decoder: function (s) { return decodeURIComponent(s); } });
 });
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({extended: true}));
 
 /**
  *  App Configuration
  */
 const port = process.env.PORT || '3000';
-var config = require('./config');
+const config = require('./config');
 app.set(config, config);
+
+const localStorage = new LocalStorage('./scratch');
 
 const basket = basketService.create(config.settings.environment);
 const checkout = checkoutService.create(config.settings.environment);
+const content = contentService.create(config.settings.environment);
 
 /**
  * Routes Definitions
@@ -126,7 +131,17 @@ app.get('/addToBasket', (req, res) => {
     venueId,
   };
 
-  basketController.addToBasket(addToBasketInputs, 'basket', res, basket);
+  basketController.addToBasket(addToBasketInputs, 'basket', res, basket, content);
+});
+
+app.get('/addCustomerDetails', (req, res) => {
+  const { reference } = req.query;
+
+  res.render('customer-details', {
+    reference,
+    title: 'Customer details',
+    subtitle: 'Add customer details'
+  });
 });
 
 app.get('/deleteItem', (req, res) => {
@@ -136,23 +151,55 @@ app.get('/deleteItem', (req, res) => {
   basketController.deleteItem(deleteBasketInputs, 'basket', res, basket);
 });
 
-app.get('/createBooking', (req, res) => {
+app.post('/checkout', (req, res) => {
+  const { firstName, lastName, email, telephoneNumber, line1, city, postalCode, countryCode, booking, } = req.body;
   const { reference } = req.query;
-  const { channelId } = config.settings;
-  const { bookingSettings } = config;
-  const createBookingInputs = { channelId, reference, bookingSettings };
+  const { bookingData, settings } = config;
+  const { channelId, checkout: checkoutSettings } = settings;
+  const shopper = { firstName, lastName, email, telephoneNumber };
+  const billingAddress = { line1, city, postalCode, countryCode };
+  const bookingSettings = { ...bookingData, shopper, billingAddress };
 
-  checkoutController.createBooking(createBookingInputs, 'booking', res, checkout);
+  localStorage.setItem('customerDetails', JSON.stringify({ shopper, billingAddress }));
+
+  if (booking === 'confirm') {
+    const createBookingInputs = { channelId, reference, bookingSettings };
+
+    checkoutController.createBooking(createBookingInputs, 'booking', res, checkout);
+  }
+
+  if (booking === 'payment') {
+    const { redirectUrl, host: apiPath, widgetVersion, callbackHost } = checkoutSettings;
+    const { shopper, billingAddress } = bookingSettings;
+    const configuration = {
+      channelId,
+      basketReference: reference,
+      shopper,
+      billingAddress,
+      redirectUrl,
+      apiPath,
+      widgetVersion,
+      callbackUrls: {
+        success: `${callbackHost}/success?reference=${reference}`,
+        fail: `${callbackHost}/checkout?failed=true&reference=${reference}`
+      },
+    };
+
+    res.render('checkout', {
+      configuration,
+      title: 'Checkout Page',
+    });
+  }
 });
 
 app.get('/checkout', (req, res) => {
-  const { reference: basketReference, failed } = req.query;
+  const { reference, failed } = req.query;
   const { channelId, checkout } = config.settings;
+  const { shopper, billingAddress } = JSON.parse(localStorage.getItem('customerDetails'));
   const { redirectUrl, host: apiPath, widgetVersion, callbackHost } = checkout;
-  const { shopper, billingAddress } = config.bookingSettings;
   const configuration = {
     channelId,
-    basketReference,
+    basketReference: reference,
     shopper,
     billingAddress,
     redirectUrl,
@@ -160,8 +207,8 @@ app.get('/checkout', (req, res) => {
     widgetVersion,
     failed,
     callbackUrls: {
-      success: `${callbackHost}/success?reference=${basketReference}`,
-      fail: `${callbackHost}/checkout?failed=true&reference=${basketReference}`
+      success: `${callbackHost}/success?reference=${reference}`,
+      fail: `${callbackHost}/checkout?failed=true&reference=${reference}`
     },
   };
 
@@ -172,7 +219,11 @@ app.get('/checkout', (req, res) => {
 });
 
 app.get('/success', (req, res) => {
+  const { shopper, billingAddress } = JSON.parse(localStorage.getItem('customerDetails'));
+
   res.render('booking', {
+    shopper,
+    billingAddress,
     result: 'success',
     messages: [`Booking ${req.query.reference} was successfully confirmed`],
     title: 'Confirmation Page',

@@ -1,0 +1,46 @@
+extends layout
+
+block layout-content
+  br
+  form(action=`/createBooking?reference=${reference}` method='post')
+    h4 Personal information
+    .form-row
+      div.col-md-6.mb-3
+        .form-group
+          label(for='firstName') First name *
+          input#firstName.form-control(type='text' name='firstName' required)
+      div.col-md-6.mb-3
+        .form-group
+          label(for='lastName') Last name *
+          input#lastName.form-control(type='text' name='lastName' required)
+    .form-row
+      div.col-md-6.mb-3
+        .form-group
+          label(for='email') Email address *
+          input#email.form-control(type='email' name='email' aria-describedby='emailHelp' required)
+          small#emailHelp.form-text.text-muted We&apos;ll never share your email with anyone else.
+      div.col-md-6.mb-3
+        .form-group
+          label(for='phone') Phone number *
+          input#phone.form-control(type='phone' name='telephoneNumber' aria-describedby='phoneHelp' required)
+          small#phoneHelp.form-text.text-muted We&apos;ll never share your phone with anyone else.
+    h4 Billing address
+    .form-row
+      div.col-md-6.mb-3
+        .form-group
+          label(for='line1') Address *
+          input#line1.form-control(type='text' name='line1' required)
+      div.col-md-6.mb-3
+        .form-group
+          label(for='city') City *
+          input#city.form-control(type='text' name='city' required)
+    .form-row
+      div.col-md-6.mb-3
+        .form-group
+          label(for='postalCode') Postal code *
+          input#postalCode.form-control(type='text' name='postalCode' required)
+      div.col-md-6.mb-3
+        .form-group
+          label(for='countryCode') Country code *
+          input#countryCode.form-control(type='text' name='countryCode' required)
+    button.btn.btn-primary(type='submit') Confirm booking

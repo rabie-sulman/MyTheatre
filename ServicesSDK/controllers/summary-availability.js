@@ -21,7 +21,7 @@ const getAvailability = (inputs, template, callback, inventoryService) => {
       }
     });
 
-    callback.render(template, { inputs, listOfAvailableTime, title: 'Product page' });
+    callback.render(template, { inputs, listOfAvailableTime, title: 'Available datetimes' });
   }).catch((err) => {
     callback.render('error', {
       title: 'Product page',

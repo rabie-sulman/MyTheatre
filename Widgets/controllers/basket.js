@@ -1,6 +1,6 @@
 const pageTitle = 'Basket page';
 
-const addToBasket = (inputs, template, callback, basketService) => {
+const addToBasket = (inputs, template, callback, basketService, contentService) => {
   const { productId, venueId, quantity, date, items, channelId } = inputs;
   const reservations = [{
     productId,
@@ -10,15 +10,21 @@ const addToBasket = (inputs, template, callback, basketService) => {
     items,
   }];
 
-  basketService.createBasket({
-    channelId,
-    reservations,
-  }).then(data => {
-    callback.render(template, { ...processData(data), title: pageTitle });
+  Promise.all([
+    basketService.createBasket({
+      channelId,
+      reservations,
+    }),
+    contentService.getProduct(productId),
+  ]).then(([basket, product]) => {
+    callback.render(template, {
+      ...processData(basket, product),
+      title: pageTitle
+    });
   }).catch((err) => {
     callback.render('error', {
       title: pageTitle,
-      messages: [err],
+      messages: [err.message],
     })
   });
 }
@@ -30,20 +36,31 @@ const deleteItem = (inputs, template, callback, basketService) => {
     reference,
     parseInt(itemId),
   ).then(data => {
-    callback.render(template, { ...processData(data), title: pageTitle });
+    callback.render(template, {
+      ...getData(data),
+      title: pageTitle,
+    });
   }).catch((err) => {
     callback.render('error', {
       title: pageTitle,
-      messages: [err],
+      messages: [err.message],
     })
   });
 }
 
-const processData = (data) => {
-  const items = data.getItemsCollection().getItems().map(item => ({
+const processData = (basket, product) => {
+  const productName = product.getName();
+  const venueName = product.getVenue().getName();
+
+  return getData(basket, productName, venueName);
+}
+
+const getData = (basket, productName, venueName) => {
+  const items = basket.getItemsCollection().getItems().map(item => ({
     productId: item.getProductId(),
-    productName: item.getProductName(),
+    productName,
     venueId: item.getVenueId(),
+    venueName,
     salePrice: item.getSalePrice(),
     totalPrice: item.getTotalPrice(),
     date: item.getRawDate(),
@@ -53,8 +70,8 @@ const processData = (data) => {
   }));
 
   return {
-    reference: data.getReference(),
-    checksum: data.getChecksum(),
+    reference: basket.getReference(),
+    checksum: basket.getChecksum(),
     items
   };
 }

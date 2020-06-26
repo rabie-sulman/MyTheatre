@@ -18,7 +18,13 @@ const createBooking = (inputs, template, callback, checkoutService) => {
       data.paymentId,
       agentDetails
     ).then(({ result }) => {
-      callback.render(template, { result, reference, title: pageTitle });
+      callback.render(template, {
+        result,
+        reference,
+        title: pageTitle,
+        shopper,
+        billingAddress,
+      });
     }).catch((err) => {
       callback.render('error', {
         title: pageTitle,
