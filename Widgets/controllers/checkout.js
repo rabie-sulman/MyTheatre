@@ -20,7 +20,13 @@ const createBooking = (inputs, template, callback, checkoutService) => {
     ).then(({ result }) => {
       const messages = [`Booking ${reference} was successfully confirmed`];
 
-      callback.render(template, { result, messages, title: pageTitle });
+      callback.render(template, {
+        result,
+        messages,
+        title: pageTitle,
+        shopper,
+        billingAddress,
+      });
     }).catch((err) => {
       callback.render('error', {
         title: pageTitle,
