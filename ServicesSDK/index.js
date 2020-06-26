@@ -60,8 +60,8 @@ app.get('/availability', (req, res) => {
     affiliateId,
     productId,
     quantity,
-    fromDate: '20201102', // today
-    toDate: '20201109', // a week from now
+    fromDate: moment().format('YYYYMMDD'),             // today
+    toDate: moment().add(1, 'weeks').format('YYYYMMDD'), // a week from now
     environment,
   };
 
